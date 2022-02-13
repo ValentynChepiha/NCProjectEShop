@@ -1,10 +1,12 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.LocationMapper;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
 
@@ -18,9 +20,16 @@ public class LocationRepository implements ModelRepository<Location> {
     }
 
     @Override
-    public void create(Location location) {
-        String sql = "insert into lab3_chepihavv_location (name, address) values (?, ?)";
-        jdbcTemplate.update(sql, location.getName(), location.getAddress());
+    public long create(Location location) {
+        CreationStatementOracle psc = new CreationStatementOracle();
+        GeneratedKeyHolder newId = new GeneratedKeyHolder();
+
+        psc.setSql("insert into lab3_chepihavv_location (name, address) values (?, ?)");
+        psc.addStatement(location.getName());
+        psc.addStatement(location.getAddress());
+
+        jdbcTemplate.update(psc, newId);
+        return (long) newId.getKey();
     }
 
     @Override

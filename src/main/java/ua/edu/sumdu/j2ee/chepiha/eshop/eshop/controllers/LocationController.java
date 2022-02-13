@@ -47,7 +47,7 @@ public class LocationController {
         location.setAddress(locationAddress);
         if(location.validate()){
             LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
-            locationRepository.create(location);
+            long id = locationRepository.create(location);
         }
         return "redirect:/locations";
     }
