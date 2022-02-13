@@ -1,10 +1,14 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("lab3_chepihavv_location")
 public class Location {
 
     @Id
+    @Column("ID_LOCATION")
     long id;
     String name;
     String address;

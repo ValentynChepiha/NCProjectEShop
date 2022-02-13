@@ -31,7 +31,7 @@ public class BrandRepository implements ModelRepository<Brand> {
         psc.addStatement(brand.getCountry());
 
         jdbcTemplate.update(psc, newId);
-        return (long) newId.getKey();
+        return newId.getKey().longValue();
     }
 
     @Override

@@ -120,8 +120,8 @@ public class StorageController {
     }
 
     @PostMapping("/storages/delete/{id}")
-    public String storagesDeletePost(@PathVariable(value = "id") long id, @RequestParam long storageIdLocation,
-                                     Model model){
+    public String storagesDeletePost(@PathVariable(value = "id") long id,
+                                     @RequestParam long storageIdLocation, Model model){
         logger.warn("Page deleting storage");
         storageRepository = new StorageRepository(jdbcTemplate);
         storageRepository.delete(id);

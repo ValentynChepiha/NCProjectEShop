@@ -20,6 +20,7 @@ import java.util.List;
 public class BrandController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private BrandRepository brandRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,16 +28,16 @@ public class BrandController {
     @GetMapping("/brands")
     public String brands(Model model){
         logger.warn("Info about all brands rendering...");
-        BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+        brandRepository = new BrandRepository(jdbcTemplate);
         List<Brand> brands = brandRepository.getAll();
         model.addAttribute("brands", brands);
-        return "brand-all";
+        return "pages/brand/all";
     }
 
     @GetMapping("/brands/add")
     public String brandsAddGet(Model model){
         logger.warn("Page create new brand");
-        return "brand-add";
+        return "pages/brand/add";
     }
 
     @PostMapping("/brands/add")
@@ -47,7 +48,7 @@ public class BrandController {
         brand.setName(brandName);
         brand.setCountry(brandCountry);
         if(brand.validate()){
-            BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+            brandRepository = new BrandRepository(jdbcTemplate);
             long id = brandRepository.create(brand);
         }
         return "redirect:/brands";
@@ -56,10 +57,10 @@ public class BrandController {
     @GetMapping("/brands/edit/{id}")
     public String brandsEditGet(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page edit brand");
-        BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+        brandRepository = new BrandRepository(jdbcTemplate);
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
-        return "brand-edit";
+        return "pages/brand/edit";
     }
 
     @PostMapping("/brands/edit")
@@ -72,7 +73,7 @@ public class BrandController {
         brand.setName(brandName);
         brand.setCountry(brandCountry);
         if(brand.validateFull()){
-            BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+            brandRepository = new BrandRepository(jdbcTemplate);
             brandRepository.update(brand);
         }
         return "redirect:/brands";
@@ -81,16 +82,16 @@ public class BrandController {
     @GetMapping("/brands/delete/{id}")
     public String brandsDeleteGet(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page delete brand");
-        BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+        brandRepository = new BrandRepository(jdbcTemplate);
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
-        return "brand-delete";
+        return "pages/brand/delete";
     }
 
     @PostMapping("/brands/delete/{id}")
     public String brandsDeletePost(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page deleting brand");
-        BrandRepository brandRepository = new BrandRepository(jdbcTemplate);
+        brandRepository = new BrandRepository(jdbcTemplate);
         brandRepository.delete(id);
         return "redirect:/brands";
     }

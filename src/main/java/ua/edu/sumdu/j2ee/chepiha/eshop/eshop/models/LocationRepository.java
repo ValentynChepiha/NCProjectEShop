@@ -29,7 +29,7 @@ public class LocationRepository implements ModelRepository<Location> {
         psc.addStatement(location.getAddress());
 
         jdbcTemplate.update(psc, newId);
-        return (long) newId.getKey();
+        return newId.getKey().longValue();
     }
 
     @Override

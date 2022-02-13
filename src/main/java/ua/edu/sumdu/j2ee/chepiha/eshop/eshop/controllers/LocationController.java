@@ -19,6 +19,7 @@ import java.util.List;
 public class LocationController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private LocationRepository locationRepository;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -26,27 +27,27 @@ public class LocationController {
     @GetMapping("/locations")
     public String locations(Model model){
         logger.warn("Info about all locations rendering...");
-        LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+        locationRepository = new LocationRepository(jdbcTemplate);
         List<Location> locations = locationRepository.getAll();
         model.addAttribute("locations", locations);
-        return "location-all";
+        return "pages/location/all";
     }
 
     @GetMapping("/locations/add")
     public String locationsAddGet(Model model){
         logger.warn("Page create new location");
-        return "location-add";
+        return "pages/location/add";
     }
 
     @PostMapping("/locations/add")
     public String locationsAddPost(@RequestParam String locationName, @RequestParam String locationAddress,
-                                Model model){
+                                  Model model){
         logger.warn("Page saving new location");
         Location location = new Location();
         location.setName(locationName);
         location.setAddress(locationAddress);
         if(location.validate()){
-            LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+            locationRepository = new LocationRepository(jdbcTemplate);
             long id = locationRepository.create(location);
         }
         return "redirect:/locations";
@@ -55,15 +56,15 @@ public class LocationController {
     @GetMapping("/locations/edit/{id}")
     public String locationsEditGet(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page edit location");
-        LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+        locationRepository = new LocationRepository(jdbcTemplate);
         Location location = locationRepository.getOne(id);
         model.addAttribute("location", location);
-        return "location-edit";
+        return "pages/location/edit";
     }
 
     @PostMapping("/locations/edit")
     public String locationsEditPost(@RequestParam long locationId, @RequestParam String locationName,
-                                 @RequestParam String locationAddress, Model model){
+                                    @RequestParam String locationAddress, Model model){
 
         logger.warn("Page updating location");
         Location location = new Location();
@@ -71,7 +72,7 @@ public class LocationController {
         location.setName(locationName);
         location.setAddress(locationAddress);
         if(location.validateFull()){
-            LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+            locationRepository = new LocationRepository(jdbcTemplate);
             locationRepository.update(location);
         }
         return "redirect:/locations";
@@ -80,16 +81,16 @@ public class LocationController {
     @GetMapping("/locations/delete/{id}")
     public String locationsDeleteGet(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page delete location");
-        LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+        locationRepository = new LocationRepository(jdbcTemplate);
         Location location = locationRepository.getOne(id);
         model.addAttribute("location", location);
-        return "location-delete";
+        return "pages/location/delete";
     }
 
     @PostMapping("/locations/delete/{id}")
     public String locationsDeletePost(@PathVariable(value = "id") long id, Model model){
         logger.warn("Page deleting location");
-        LocationRepository locationRepository = new LocationRepository(jdbcTemplate);
+        locationRepository = new LocationRepository(jdbcTemplate);
         locationRepository.delete(id);
         return "redirect:/locations";
     }

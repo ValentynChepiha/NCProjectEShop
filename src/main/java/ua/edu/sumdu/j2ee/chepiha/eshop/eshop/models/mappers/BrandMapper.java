@@ -10,7 +10,7 @@ public class BrandMapper implements RowMapper<Brand> {
 
     public Brand mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Brand brand = new Brand();
-        brand.setId(resultSet.getInt("ID"));
+        brand.setId(resultSet.getLong("ID"));
         brand.setName(resultSet.getString("NAME"));
         brand.setCountry(resultSet.getString("COUNTRY"));
         return brand;

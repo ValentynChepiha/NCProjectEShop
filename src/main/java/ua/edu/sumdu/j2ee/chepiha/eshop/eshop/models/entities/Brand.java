@@ -1,7 +1,9 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("lab3_chepihavv_brand")
 public class Brand {
 
     @Id
