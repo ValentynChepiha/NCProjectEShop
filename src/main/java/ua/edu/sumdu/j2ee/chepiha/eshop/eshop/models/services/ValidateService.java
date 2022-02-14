@@ -1,0 +1,9 @@
+package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
+
+public class ValidateService {
+
+    public static boolean validateString(String string){
+        return string != null && string.trim().length() > 0;
+    }
+
+}

@@ -19,9 +19,10 @@ public class Storage {
     public Storage() {
     }
 
-    public Storage(long id, String name, Location location) {
+    public Storage(long id, String name, long idLocation, Location location) {
         this.id = id;
         this.name = name;
+        this.idLocation = idLocation;
         this.location = location;
     }
 
