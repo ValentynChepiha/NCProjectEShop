@@ -31,11 +31,27 @@ insert into  "LAB3_CHEPIHAVV_USER"(login, password, authority) VALUES('user', 'u
 
 commit;
 
+drop trigger "BI_LAB3_CHEPIHAVV_PRODUCT";
+drop sequence "LAB3_CHEPIHAVV_PRODUCT_SEQ";
+drop table LAB3_CHEPIHAVV_PRODUCT  cascade constraints;
 
+drop trigger "BI_LAB3_CHEPIHAVV_STORAGE";
+drop sequence "LAB3_CHEPIHAVV_STORAGE_SEQ";
+drop table LAB3_CHEPIHAVV_STORAGE  cascade constraints;
+
+drop trigger "BI_LAB3_CHEPIHAVV_CLIENT";
+drop sequence "LAB3_CHEPIHAVV_CLIENT_SEQ";
+drop table LAB3_CHEPIHAVV_CLIENT  cascade constraints;
+
+drop trigger "BI_LAB3_CHEPIHAVV_LOCATION";
+drop sequence "LAB3_CHEPIHAVV_LOCATION_SEQ";
+drop table LAB3_CHEPIHAVV_LOCATION  cascade constraints;
 
 drop trigger "BI_LAB3_CHEPIHAVV_BRAND";
 drop sequence "LAB3_CHEPIHAVV_BRAND_SEQ";
 drop table "LAB3_CHEPIHAVV_BRAND"  cascade constraints;
+/
+
 
 
 create table "LAB3_CHEPIHAVV_BRAND" (
@@ -67,19 +83,6 @@ insert into  "LAB3_CHEPIHAVV_BRAND"(NAME, COUNTRY) VALUES('Konti', 'Ukraine');
 
 commit;
 
-
-drop trigger "BI_LAB3_CHEPIHAVV_STORAGE";
-drop sequence "LAB3_CHEPIHAVV_STORAGE_SEQ";
-drop table LAB3_CHEPIHAVV_STORAGE  cascade constraints;
-
-drop trigger "BI_LAB3_CHEPIHAVV_CLIENT";
-drop sequence "LAB3_CHEPIHAVV_CLIENT_SEQ";
-drop table LAB3_CHEPIHAVV_CLIENT  cascade constraints;
-
-drop trigger "BI_LAB3_CHEPIHAVV_LOCATION";
-drop sequence "LAB3_CHEPIHAVV_LOCATION_SEQ";
-drop table LAB3_CHEPIHAVV_LOCATION  cascade constraints;
-/
 
 create table LAB3_CHEPIHAVV_LOCATION(
                                         "ID" number,
@@ -158,3 +161,39 @@ begin
 end;
 /
 commit;
+
+
+
+create table LAB3_CHEPIHAVV_PRODUCT(
+                                       "ID" number,
+                                       "NAME" varchar2(128) not null,
+                                       "ID_BRAND" number not null,
+                                       "PRICE" FLOAT not null,
+                                       "COUNT" NUMBER not null,
+                                       "DISCOUNT" float,
+                                       "GIFT" number,
+                                       "ID_STORAGE" number not null,
+                                       constraint "LAB3_CHEPIHAVV_PRODUCT_PK" primary key ("ID"),
+                                       CONSTRAINT LAB3_CHEPIHAVV_PRODUCT_BRAND_FK
+                                           FOREIGN KEY (ID_BRAND)
+                                               REFERENCES LAB3_CHEPIHAVV_BRAND("ID"),
+                                       CONSTRAINT LAB3_CHEPIHAVV_PRODUCT_STORAGE_FK
+                                           FOREIGN KEY (ID_STORAGE)
+                                               REFERENCES LAB3_CHEPIHAVV_STORAGE("ID")
+);
+/
+
+CREATE sequence "LAB3_CHEPIHAVV_PRODUCT_SEQ";
+/
+
+CREATE trigger "BI_LAB3_CHEPIHAVV_PRODUCT"
+    before insert on "LAB3_CHEPIHAVV_PRODUCT"
+    for each row
+begin
+    if :NEW."ID" is null then
+        select "LAB3_CHEPIHAVV_PRODUCT_SEQ".nextval into :NEW."ID" from dual;
+    end if;
+end;
+/
+commit;
+

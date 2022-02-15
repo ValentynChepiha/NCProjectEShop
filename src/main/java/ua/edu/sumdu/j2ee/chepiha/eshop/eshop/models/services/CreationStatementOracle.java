@@ -29,6 +29,16 @@ public class CreationStatementOracle implements PreparedStatementCreator {
         listObjects.add(statement);
     }
 
+    public void addStatement(int statement) {
+        listTypes.add("int");
+        listObjects.add(statement);
+    }
+
+    public void addStatement(float statement) {
+        listTypes.add("float");
+        listObjects.add(statement);
+    }
+
     public void clearStatements(){
         listTypes.clear();
         listObjects.clear();
@@ -49,6 +59,12 @@ public class CreationStatementOracle implements PreparedStatementCreator {
                     break;
                 case "long":
                     ps.setLong(i+1, (Long) listObjects.get(i));
+                    break;
+                case "int":
+                    ps.setInt(i+1, (int) listObjects.get(i));
+                    break;
+                case "float":
+                    ps.setFloat(i+1, (float) listObjects.get(i));
                     break;
             }
         }
