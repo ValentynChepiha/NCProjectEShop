@@ -59,7 +59,7 @@ public class StorageController {
             storage.setIdLocation(id);
             if(storage.validate()){
                 storageRepository = new StorageRepository(jdbcTemplate);
-                id = storageRepository.create(storage);
+                storageRepository.create(storage);
             }
         }
         return "redirect:/storages";

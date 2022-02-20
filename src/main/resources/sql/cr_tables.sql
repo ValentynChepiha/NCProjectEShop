@@ -31,6 +31,14 @@ insert into  "LAB3_CHEPIHAVV_USER"(login, password, authority) VALUES('user', 'u
 
 commit;
 
+drop trigger "BI_LAB3_CHEPIHAVV_ORDER_PRODUCTS";
+drop sequence "LAB3_CHEPIHAVV_ORDER_PRODUCTS_SEQ";
+drop table "LAB3_CHEPIHAVV_ORDER_PRODUCTS"   cascade constraints;
+
+drop trigger "BI_LAB3_CHEPIHAVV_ORDER";
+drop sequence "LAB3_CHEPIHAVV_ORDER_SEQ";
+drop table "LAB3_CHEPIHAVV_ORDER"   cascade constraints;
+
 drop trigger "BI_LAB3_CHEPIHAVV_PRODUCT";
 drop sequence "LAB3_CHEPIHAVV_PRODUCT_SEQ";
 drop table LAB3_CHEPIHAVV_PRODUCT  cascade constraints;
@@ -196,4 +204,68 @@ begin
 end;
 /
 commit;
+
+
+create table LAB3_CHEPIHAVV_ORDER(
+                                     "ID" number,
+                                     "D_ORDER" DATE not null,
+                                     "ID_CLIENT" number not null,
+                                     constraint "LAB3_CHEPIHAVV_ORDER_PK" primary key ("ID"),
+                                     CONSTRAINT LAB3_CHEPIHAVV_ORDER_CLIENT_FK
+                                         FOREIGN KEY (ID_CLIENT)
+                                             REFERENCES LAB3_CHEPIHAVV_CLIENT("ID")
+);
+/
+
+CREATE sequence "LAB3_CHEPIHAVV_ORDER_SEQ";
+/
+
+CREATE trigger "BI_LAB3_CHEPIHAVV_ORDER"
+    before insert on "LAB3_CHEPIHAVV_ORDER"
+    for each row
+begin
+    if :NEW."ID" is null then
+        select "LAB3_CHEPIHAVV_ORDER_SEQ".nextval into :NEW."ID" from dual;
+    end if;
+end;
+/
+commit;
+
+
+
+create table LAB3_CHEPIHAVV_ORDER_PRODUCTS(
+                                              "ID" number,
+                                              "ID_ORDER" number not null,
+                                              "ID_PRODUCT" number not null,
+
+                                              "ID_GIFT" number not null,
+                                              "DISCOUNT" FLOAT,
+                                              "COUNT" number,
+
+                                              constraint "LAB3_CHEPIHAVV_ORDER_PRODUCTS_PK" primary key ("ID"),
+
+                                              CONSTRAINT LAB3_CHEPIHAVV_ORDER_PRODUCTS_ORDER_FK
+                                                  FOREIGN KEY (ID_ORDER)
+                                                      REFERENCES LAB3_CHEPIHAVV_ORDER("ID"),
+
+                                              CONSTRAINT LAB3_CHEPIHAVV_ORDER_PRODUCTS_PRODUCT_FK
+                                                  FOREIGN KEY (ID_PRODUCT)
+                                                      REFERENCES LAB3_CHEPIHAVV_PRODUCT("ID")
+);
+/
+
+CREATE sequence "LAB3_CHEPIHAVV_ORDER_PRODUCTS_SEQ";
+/
+
+CREATE trigger "BI_LAB3_CHEPIHAVV_ORDER_PRODUCTS"
+    before insert on "LAB3_CHEPIHAVV_ORDER_PRODUCTS"
+    for each row
+begin
+    if :NEW."ID" is null then
+        select "LAB3_CHEPIHAVV_ORDER_PRODUCTS_SEQ".nextval into :NEW."ID" from dual;
+    end if;
+end;
+/
+commit;
+
 

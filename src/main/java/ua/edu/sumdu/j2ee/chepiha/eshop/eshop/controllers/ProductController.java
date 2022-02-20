@@ -77,7 +77,7 @@ public class ProductController {
         product.setIdStorage(productStorage);
 
         if(product.validate()){
-            long id = productRepository.create(product);
+            productRepository.create(product);
         }
         return "redirect:/products";
     }

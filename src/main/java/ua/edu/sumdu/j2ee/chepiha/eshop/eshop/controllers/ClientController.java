@@ -65,7 +65,7 @@ public class ClientController {
 
                 if(client.validate()){
                     clientRepository = new ClientRepository(jdbcTemplate);
-                    id = clientRepository.create(client);
+                    clientRepository.create(client);
                 } else {
                     locationRepository.delete(id);
                 }

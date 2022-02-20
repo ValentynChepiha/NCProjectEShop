@@ -49,7 +49,7 @@ public class BrandController {
         brand.setCountry(brandCountry);
         if(brand.validate()){
             brandRepository = new BrandRepository(jdbcTemplate);
-            long id = brandRepository.create(brand);
+            brandRepository.create(brand);
         }
         return "redirect:/brands";
     }

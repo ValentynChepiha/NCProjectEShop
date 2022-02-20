@@ -3,6 +3,7 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
@@ -39,6 +40,11 @@ public class CreationStatementOracle implements PreparedStatementCreator {
         listObjects.add(statement);
     }
 
+    public void addStatement(Date statement) {
+        listTypes.add("date");
+        listObjects.add(statement);
+    }
+
     public void clearStatements(){
         listTypes.clear();
         listObjects.clear();
@@ -65,6 +71,9 @@ public class CreationStatementOracle implements PreparedStatementCreator {
                     break;
                 case "float":
                     ps.setFloat(i+1, (float) listObjects.get(i));
+                    break;
+                case "date":
+                    ps.setDate(i+1, (Date) listObjects.get(i));
                     break;
             }
         }

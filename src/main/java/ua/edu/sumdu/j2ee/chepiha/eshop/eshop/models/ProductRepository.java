@@ -77,6 +77,11 @@ public class ProductRepository implements ModelRepository<Product> {
         jdbcTemplate.update(psc, newId);
     }
 
+    public void updateCount(long id, int count){
+        String sql = "update lab3_chepihavv_product set count = ? where id = ?";
+        jdbcTemplate.update(sql, count, id);
+    }
+
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_product where id = ?";
         jdbcTemplate.update(sql, id);
