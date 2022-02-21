@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
 @Table("lab3_chepihavv_brand")
 public class Brand {
@@ -53,21 +54,10 @@ public class Brand {
     }
 
     public boolean validateFull(){
-        if(id < 1 ){
-            return false;
-        }
-
-        return validate();
+        return validate() && id>0;
     }
 
     public boolean validate(){
-        if(name == null && name.trim().length() == 0){
-            return false;
-        }
-
-        if(country == null && country.trim().length() == 0){
-            return false;
-        }
-        return true;
+        return ValidateService.validateString(country) && ValidateService.validateString(name);
     }
 }

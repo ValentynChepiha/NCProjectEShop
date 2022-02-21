@@ -132,11 +132,7 @@ public class Product {
     }
 
     public boolean validateFull(){
-        if(id < 1 ){
-            return false;
-        }
-
-        return validate();
+        return validate() && id>0;
     }
 
     public boolean validate(){

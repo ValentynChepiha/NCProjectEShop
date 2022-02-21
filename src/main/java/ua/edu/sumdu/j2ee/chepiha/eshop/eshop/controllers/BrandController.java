@@ -3,7 +3,6 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +19,17 @@ import java.util.List;
 public class BrandController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-    private BrandRepository brandRepository;
+
+    private final BrandRepository brandRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public BrandController(BrandRepository brandRepository) {
+        this.brandRepository = brandRepository;
+    }
 
     @GetMapping("/brands")
     public String brands(Model model){
-        logger.warn("Info about all brands rendering...");
-        brandRepository = new BrandRepository(jdbcTemplate);
+        logger.info("Info about all brands rendering...");
         List<Brand> brands = brandRepository.getAll();
         model.addAttribute("brands", brands);
         return "pages/brand/all";
@@ -36,19 +37,18 @@ public class BrandController {
 
     @GetMapping("/brands/add")
     public String brandsAddGet(Model model){
-        logger.warn("Page create new brand");
+        logger.info("Page create new brand");
         return "pages/brand/add";
     }
 
     @PostMapping("/brands/add")
     public String brandsAddPost(@RequestParam String brandName, @RequestParam String brandCountry,
                                 Model model){
-        logger.warn("Page saving new brand");
+        logger.info("Page saving new brand");
         Brand brand = new Brand();
         brand.setName(brandName);
         brand.setCountry(brandCountry);
         if(brand.validate()){
-            brandRepository = new BrandRepository(jdbcTemplate);
             brandRepository.create(brand);
         }
         return "redirect:/brands";
@@ -56,8 +56,7 @@ public class BrandController {
 
     @GetMapping("/brands/edit/{id}")
     public String brandsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.warn("Page edit brand");
-        brandRepository = new BrandRepository(jdbcTemplate);
+        logger.info("Page edit brand");
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
         return "pages/brand/edit";
@@ -67,13 +66,12 @@ public class BrandController {
     public String brandsEditPost(@RequestParam long brandId, @RequestParam String brandName,
                                  @RequestParam String brandCountry, Model model){
 
-        logger.warn("Page updating brand");
+        logger.info("Page updating brand");
         Brand brand = new Brand();
         brand.setId(brandId);
         brand.setName(brandName);
         brand.setCountry(brandCountry);
         if(brand.validateFull()){
-            brandRepository = new BrandRepository(jdbcTemplate);
             brandRepository.update(brand);
         }
         return "redirect:/brands";
@@ -81,8 +79,7 @@ public class BrandController {
 
     @GetMapping("/brands/delete/{id}")
     public String brandsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.warn("Page delete brand");
-        brandRepository = new BrandRepository(jdbcTemplate);
+        logger.info("Page delete brand");
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
         return "pages/brand/delete";
@@ -90,8 +87,7 @@ public class BrandController {
 
     @PostMapping("/brands/delete/{id}")
     public String brandsDeletePost(@PathVariable(value = "id") long id, Model model){
-        logger.warn("Page deleting brand");
-        brandRepository = new BrandRepository(jdbcTemplate);
+        logger.info("Page deleting brand");
         brandRepository.delete(id);
         return "redirect:/brands";
     }

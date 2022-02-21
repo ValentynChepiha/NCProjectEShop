@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.LocationMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
@@ -13,11 +14,8 @@ import java.util.List;
 @Repository
 public class LocationRepository implements ModelRepository<Location> {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public LocationRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Location location) {
@@ -46,13 +44,12 @@ public class LocationRepository implements ModelRepository<Location> {
     @Override
     public List<Location> getAll() {
         String sql = "select * from lab3_chepihavv_location order by id";
-        return jdbcTemplate.query(sql, new LocationMapper());
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Location.class));
     }
 
     @Override
     public Location getOne(long id) {
         String sql = "select * from lab3_chepihavv_location where id=?";
-        Location location =  jdbcTemplate.queryForObject(sql, new LocationMapper(), id);
-        return location;
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Location.class), id);
     }
 }

@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Brand;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.BrandMapper;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
@@ -15,11 +16,8 @@ import java.util.List;
 @Repository
 public class BrandRepository implements ModelRepository<Brand> {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public BrandRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Brand brand) {
@@ -48,13 +46,12 @@ public class BrandRepository implements ModelRepository<Brand> {
     @Override
     public List<Brand> getAll() {
         String sql = "select * from lab3_chepihavv_brand order by id";
-        return jdbcTemplate.query(sql, new BrandMapper());
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Brand.class));
     }
 
     @Override
     public Brand getOne(long id) {
         String sql = "select * from lab3_chepihavv_brand where id=?";
-        Brand brand =  jdbcTemplate.queryForObject(sql, new BrandMapper(), id);
-        return brand;
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Brand.class), id);
     }
 }

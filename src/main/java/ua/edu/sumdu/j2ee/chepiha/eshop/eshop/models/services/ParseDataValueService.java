@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
@@ -11,16 +13,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
+@Service
 public class ParseDataValueService {
 
-    public static Date parseStringToDate(String stringDate) throws ParseException {
+    private final ProductRepository productRepository;
+
+    @Autowired
+    public ParseDataValueService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public Date parseStringToDate(String stringDate) throws ParseException {
         SimpleDateFormat f=new SimpleDateFormat("dd.MM.yyyy");
         return new Date(f.parse(stringDate).getTime());
     }
 
-    public static void parseBodyPage(JdbcTemplate jdbcTemplate, Order order, String bodyPage){
-        ProductRepository productRepository = new ProductRepository(jdbcTemplate);
-
+    public void parseBodyPage(Order order, String bodyPage){
         Arrays.stream(bodyPage.split("&"))
                 .forEach(element -> {
                     String[] param = element.split("=");

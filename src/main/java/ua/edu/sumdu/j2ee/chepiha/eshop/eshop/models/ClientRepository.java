@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Client;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ClientMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
@@ -13,11 +14,8 @@ import java.util.List;
 @Repository
 public class ClientRepository implements ModelRepository<Client> {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public ClientRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Client client) {
@@ -50,13 +48,12 @@ public class ClientRepository implements ModelRepository<Client> {
     @Override
     public List<Client> getAll() {
         String sql = "select * from lab3_chepihavv_client order by id";
-        return jdbcTemplate.query(sql, new ClientMapper());
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Client.class));
     }
 
     @Override
     public Client getOne(long id) {
         String sql = "select * from lab3_chepihavv_client where id=?";
-        Client client = jdbcTemplate.queryForObject(sql, new ClientMapper(), id);
-        return client;
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Client.class), id);
     }
 }

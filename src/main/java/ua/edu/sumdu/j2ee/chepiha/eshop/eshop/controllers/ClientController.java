@@ -21,16 +21,15 @@ import java.util.List;
 public class ClientController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
-    private ClientRepository clientRepository;
-    private LocationRepository locationRepository;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private ClientRepository clientRepository;
+    @Autowired
+    private LocationRepository locationRepository;
 
     @GetMapping("/clients")
     public String clients(Model model){
-        logger.warn("Info about all client rendering...");
-        clientRepository = new ClientRepository(jdbcTemplate);
+        logger.info("Info about all client rendering...");
         List<Client> clients = clientRepository.getAll();
         model.addAttribute("clients", clients);
         return "pages/client/all";
@@ -38,7 +37,7 @@ public class ClientController {
 
     @GetMapping("/clients/add")
     public String clientsAddGet(Model model){
-        logger.warn("Page create new client");
+        logger.info("Page create new client");
         return "pages/client/add";
     }
 
@@ -46,14 +45,13 @@ public class ClientController {
     public String clientsAddPost(@RequestParam String clientName, @RequestParam String clientEmail,
                                  @RequestParam String clientPhone, @RequestParam String clientAddress,
                                 Model model){
-        logger.warn("Page saving new client");
+        logger.info("Page saving new client");
 
         Location location = new Location();
         location.setName("client address");
         location.setAddress(clientAddress);
 
         if(location.validate()){
-            locationRepository = new LocationRepository(jdbcTemplate);
             long id = locationRepository.create(location);
 
             if(id>0){
@@ -64,7 +62,6 @@ public class ClientController {
                 client.setIdLocation(id);
 
                 if(client.validate()){
-                    clientRepository = new ClientRepository(jdbcTemplate);
                     clientRepository.create(client);
                 } else {
                     locationRepository.delete(id);
@@ -78,11 +75,9 @@ public class ClientController {
 
     @GetMapping("/clients/edit/{id}")
     public String clientsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.warn("Page edit client");
-        clientRepository = new ClientRepository(jdbcTemplate);
+        logger.info("Page edit client");
         Client client = clientRepository.getOne(id);
 
-        locationRepository = new LocationRepository(jdbcTemplate);
         Location location = locationRepository.getOne(client.getIdLocation());
         client.setLocation(location);
 
@@ -96,7 +91,7 @@ public class ClientController {
                                   @RequestParam String clientPhone, @RequestParam String clientAddress,
                                   @RequestParam String clientNameLocation, Model model){
 
-        logger.warn("Page updating client");
+        logger.info("Page updating client");
         Client client = new Client();
         client.setId(clientId);
         client.setName(clientName);
@@ -110,9 +105,7 @@ public class ClientController {
         location.setAddress(clientAddress);
 
         if(client.validateFull() && location.validateFull() ){
-            clientRepository = new ClientRepository(jdbcTemplate);
             clientRepository.update(client);
-            locationRepository = new LocationRepository(jdbcTemplate);
             locationRepository.update(location);
         }
         return "redirect:/clients";
@@ -120,12 +113,10 @@ public class ClientController {
 
     @GetMapping("/clients/delete/{id}")
     public String clientsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.warn("Page delete client");
+        logger.info("Page delete client");
 
-        clientRepository = new ClientRepository(jdbcTemplate);
         Client client = clientRepository.getOne(id);
 
-        locationRepository = new LocationRepository(jdbcTemplate);
         Location location = locationRepository.getOne(client.getIdLocation());
         client.setLocation(location);
 
@@ -136,10 +127,8 @@ public class ClientController {
     @PostMapping("/clients/delete/{id}")
     public String clientsDeletePost(@PathVariable(value = "id") long id, @RequestParam long clientIdLocation,
                                     Model model){
-        logger.warn("Page deleting client");
-        clientRepository = new ClientRepository(jdbcTemplate);
+        logger.info("Page deleting client");
         clientRepository.delete(id);
-        locationRepository = new LocationRepository(jdbcTemplate);
         locationRepository.delete(clientIdLocation);
         return "redirect:/clients";
     }

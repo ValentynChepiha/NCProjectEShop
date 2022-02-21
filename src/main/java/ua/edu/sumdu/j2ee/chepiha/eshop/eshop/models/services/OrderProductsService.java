@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.OrderProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.OrderRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
@@ -10,14 +11,28 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 import java.text.ParseException;
 import java.util.List;
 
+@Service
 public class OrderProductsService {
 
-    public static Order getOrderProductsForEdit(JdbcTemplate jdbcTemplate, long idOrder){
-        OrderRepository orderRepository = new OrderRepository(jdbcTemplate);
-        Order order = orderRepository.getOne(idOrder);
+    private final OrderRepository orderRepository;
+    private final ProductRepository productRepository;
+    private final OrderProductRepository orderProductRepository;
+    private final ProductService productService;
+    private final ParseDataValueService parseDataValueService;
 
-        ProductRepository productRepository = new ProductRepository(jdbcTemplate);
-        OrderProductRepository orderProductRepository = new OrderProductRepository(jdbcTemplate);
+    @Autowired
+    public OrderProductsService(OrderRepository orderRepository, ProductRepository productRepository,
+                                OrderProductRepository orderProductRepository, ProductService productService,
+                                ParseDataValueService parseDataValueService) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.orderProductRepository = orderProductRepository;
+        this.productService = productService;
+        this.parseDataValueService = parseDataValueService;
+    }
+
+    public Order getOrderProductsForEdit(long idOrder){
+        Order order = orderRepository.getOne(idOrder);
 
         List<OrderProduct> listOrderProducts = orderProductRepository.getOrderProductsWithAllProducts(idOrder);
         listOrderProducts.forEach(product -> {
@@ -28,12 +43,8 @@ public class OrderProductsService {
         return order;
     }
 
-    public static Order getOrderProductsForDelete(JdbcTemplate jdbcTemplate, long idOrder){
-        OrderRepository orderRepository = new OrderRepository(jdbcTemplate);
+    public Order getOrderProductsForDelete(long idOrder){
         Order order = orderRepository.getOne(idOrder);
-
-        ProductRepository productRepository = new ProductRepository(jdbcTemplate);
-        OrderProductRepository orderProductRepository = new OrderProductRepository(jdbcTemplate);
 
         List<OrderProduct> listOrderProducts = orderProductRepository.getOrderProductsByIDOrder(idOrder);
         listOrderProducts.forEach(product -> {
@@ -44,61 +55,51 @@ public class OrderProductsService {
         return order;
     }
 
-    public static void saveOrderProducts(JdbcTemplate jdbcTemplate, Long orderClient,
-                                         String orderDate, String orderBody) throws ParseException {
-        OrderRepository orderRepository = new OrderRepository(jdbcTemplate);
+    public void saveOrderProducts(Long orderClient, String orderDate, String orderBody) throws ParseException {
         Order order = new Order();
 
         order.setIdClient(orderClient);
-        order.setDOrder(ParseDataValueService.parseStringToDate(orderDate));
+        order.setDOrder(parseDataValueService.parseStringToDate(orderDate));
 
-        ParseDataValueService.parseBodyPage(jdbcTemplate, order, orderBody);
-
+        parseDataValueService.parseBodyPage(order, orderBody);
         if(order.validate()){
             long id = orderRepository.create(order);
             if(id>0){
-                OrderProductsService.saveOrderProductsToDB(jdbcTemplate, order, id);
-                ProductService.setProductCountAfterCreateOrder(jdbcTemplate, order);
+                saveOrderProductsToDB(order, id);
+                productService.setProductCountAfterCreateOrder(order);
             }
         }
     }
 
-    public static void saveOrderProductsToDB(JdbcTemplate jdbcTemplate, Order order, long orderId){
-        OrderProductRepository orderProductRepository = new OrderProductRepository(jdbcTemplate);
+    public void saveOrderProductsToDB(Order order, long orderId){
         order.getOrderProductList().forEach(orderProduct -> {
             orderProduct.setIdOrder(orderId);
             orderProductRepository.create(orderProduct);
         });
     }
 
-    public static void updateOrderProducts(JdbcTemplate jdbcTemplate, long orderId, Long orderClient,
+    public void updateOrderProducts(long orderId, Long orderClient,
                                            String orderDate, String orderBody) throws ParseException {
 
-        OrderRepository orderRepository = new OrderRepository(jdbcTemplate);
-        OrderProductRepository orderProductRepository = new OrderProductRepository(jdbcTemplate);
-
         Order order = orderRepository.getOne(orderId);
-        order.setDOrder(ParseDataValueService.parseStringToDate(orderDate));
+        order.setDOrder(parseDataValueService.parseStringToDate(orderDate));
         order.setIdClient(orderClient);
 
-        ProductService.setProductToOrder(jdbcTemplate, order);
-        ProductService.setProductCountBeforeUpdateOrder(jdbcTemplate, order);
+        productService.setProductToOrder(order);
+        productService.setProductCountBeforeUpdateOrder(order);
         order.clearOrderProductList();
 
-        ParseDataValueService.parseBodyPage(jdbcTemplate, order, orderBody);
+        parseDataValueService.parseBodyPage(order, orderBody);
         orderRepository.update(order);
         orderProductRepository.deleteByIdOrder(orderId);
-        OrderProductsService.saveOrderProductsToDB(jdbcTemplate, order, orderId);
-        ProductService.setProductCountAfterCreateOrder(jdbcTemplate, order);
+        saveOrderProductsToDB(order, orderId);
+        productService.setProductCountAfterCreateOrder(order);
     }
 
-    public static void deleteOrderProducts(JdbcTemplate jdbcTemplate, long orderId){
-        OrderRepository orderRepository = new OrderRepository(jdbcTemplate);
-        OrderProductRepository orderProductRepository = new OrderProductRepository(jdbcTemplate);
-
+    public void deleteOrderProducts(long orderId){
         Order order = orderRepository.getOne(orderId);
-        ProductService.setProductToOrder(jdbcTemplate, order);
-        ProductService.setProductCountBeforeUpdateOrder(jdbcTemplate, order);
+        productService.setProductToOrder(order);
+        productService.setProductCountBeforeUpdateOrder(order);
 
         orderProductRepository.deleteByIdOrder(orderId);
         orderRepository.delete(orderId);

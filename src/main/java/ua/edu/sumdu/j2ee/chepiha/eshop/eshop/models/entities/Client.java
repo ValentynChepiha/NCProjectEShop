@@ -90,11 +90,7 @@ public class Client {
     }
 
     public boolean validateFull(){
-        if(id < 1 ){
-            return false;
-        }
-
-        return validate();
+        return validate() && id>0;
     }
 
     public boolean validate(){
@@ -102,8 +98,5 @@ public class Client {
                 && ValidateService.validateString(email)
                 && ValidateService.validateString(phone)
                 && idLocation > 0;
-// todo:
-//        @Autowired
-//        private Validator validator;
     }
 }

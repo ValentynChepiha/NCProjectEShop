@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -13,11 +14,8 @@ import java.util.List;
 @Repository
 public class OrderRepository implements ModelRepository<Order> {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public OrderRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Order order) {
@@ -53,7 +51,6 @@ public class OrderRepository implements ModelRepository<Order> {
     @Override
     public Order getOne(long id) {
         String sql = "select * from lab3_chepihavv_order where id=?";
-        Order order =  jdbcTemplate.queryForObject(sql, new OrderMapper(), id);
-        return order;
+        return jdbcTemplate.queryForObject(sql, new OrderMapper(), id);
     }
 }

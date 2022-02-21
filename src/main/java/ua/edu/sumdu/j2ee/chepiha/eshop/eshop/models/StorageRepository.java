@@ -1,11 +1,12 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.StorageMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
@@ -13,11 +14,8 @@ import java.util.List;
 @Repository
 public class StorageRepository implements ModelRepository<Storage> {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public StorageRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Storage storage) {
@@ -47,13 +45,12 @@ public class StorageRepository implements ModelRepository<Storage> {
     @Override
     public List<Storage> getAll() {
         String sql = "select * from lab3_chepihavv_storage order by id";
-        return jdbcTemplate.query(sql, new StorageMapper());
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Storage.class));
     }
 
     @Override
     public Storage getOne(long id) {
         String sql = "select * from lab3_chepihavv_storage where id=?";
-        Storage storage =  jdbcTemplate.queryForObject(sql, new StorageMapper(), id);
-        return storage;
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Storage.class), id);
     }
 }
