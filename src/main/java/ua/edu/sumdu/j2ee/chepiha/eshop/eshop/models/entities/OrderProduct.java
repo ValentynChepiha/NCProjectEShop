@@ -1,15 +1,8 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 
-@Table("lab3_chepihavv_order_products")
 public class OrderProduct {
 
-    @Id
-    @Column("ID")
     long id;
     int count;
     float discount;
@@ -17,9 +10,7 @@ public class OrderProduct {
     long idOrder;
     long idGift;
     long idProduct;
-    @MappedCollection(idColumn = "ID_ORDER")
     Order order;
-    @MappedCollection(idColumn = "ID_PRODUCT")
     Product product;
 
     public OrderProduct() {

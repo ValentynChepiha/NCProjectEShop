@@ -1,16 +1,9 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
-@Table("lab3_chepihavv_product")
 public class Product {
 
-    @Id
-    @Column("ID")
     long id;
     String name;
     long idBrand;
@@ -19,9 +12,7 @@ public class Product {
     float discount;
     long gift;
     long idStorage;
-    @MappedCollection(idColumn = "ID_BRAND")
     Brand brand;
-    @MappedCollection(idColumn = "ID_STORAGE")
     Storage storage;
     Product giftValue;
 

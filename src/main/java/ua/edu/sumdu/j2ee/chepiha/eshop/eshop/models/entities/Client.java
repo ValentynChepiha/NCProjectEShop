@@ -1,22 +1,14 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.MappedCollection;
-import org.springframework.data.relational.core.mapping.Table;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
-@Table("lab3_chepihavv_client")
 public class Client {
 
-    @Id
-    @Column("ID")
     long id;
     String name;
     String email;
     String phone;
     long idLocation;
-    @MappedCollection(idColumn = "ID_LOCATION")
     Location location;
 
     public Client() {

@@ -1,18 +1,11 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table("lab3_chepihavv_order")
 public class Order {
 
-    @Id
-    @Column("ID")
     long id;
     Date dOrder;
     long idClient;

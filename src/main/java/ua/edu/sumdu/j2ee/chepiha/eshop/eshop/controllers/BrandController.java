@@ -20,12 +20,8 @@ public class BrandController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-    private final BrandRepository brandRepository;
-
     @Autowired
-    public BrandController(BrandRepository brandRepository) {
-        this.brandRepository = brandRepository;
-    }
+    private BrandRepository brandRepository;
 
     @GetMapping("/brands")
     public String brands(Model model){

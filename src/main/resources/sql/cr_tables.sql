@@ -27,7 +27,43 @@ end;
 commit;
 
 
-insert into  "LAB3_CHEPIHAVV_USER"(login, password, authority) VALUES('user', 'user', 'USER');
+insert into  "LAB3_CHEPIHAVV_USER"(login, password, authority) VALUES('user', 'user', 'ROLE_USER');
+insert into  "LAB3_CHEPIHAVV_USER"(login, password, authority) VALUES('admin', 'admin', 'ROLE_ADMIN');
+
+
+drop trigger "BI_LAB3_CHEPIHAVV_USER_ROLE";
+drop sequence "LAB3_CHEPIHAVV_USER_ROLE_SEQ";
+drop table "LAB3_CHEPIHAVV_USER_ROLE";
+/
+
+
+
+create table LAB3_CHEPIHAVV_USER_ROLE(
+                                         "ID" number,
+                                         "NAME" varchar2(32) not null,
+                                         constraint "LAB3_CHEPIHAVV_USER_ROLE_PK" primary key ("ID")
+);
+/
+
+CREATE sequence "LAB3_CHEPIHAVV_USER_ROLE_SEQ";
+/
+
+CREATE trigger "BI_LAB3_CHEPIHAVV_USER_ROLE"
+    before insert on "LAB3_CHEPIHAVV_USER_ROLE"
+    for each row
+begin
+    if :NEW."ID" is null then
+        select "LAB3_CHEPIHAVV_USER_ROLE_SEQ".nextval into :NEW."ID" from dual;
+    end if;
+end;
+/
+commit;
+
+
+insert into LAB3_CHEPIHAVV_USER_ROLE("NAME") values ('ROLE_USER');
+insert into LAB3_CHEPIHAVV_USER_ROLE("NAME") values ('ROLE_ADMIN');
+insert into LAB3_CHEPIHAVV_USER_ROLE("NAME") values ('ROLE_OFF');
+
 
 commit;
 
