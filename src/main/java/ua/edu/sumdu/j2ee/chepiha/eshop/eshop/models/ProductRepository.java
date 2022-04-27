@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
 
 @Repository
-public class ProductRepository implements ModelRepository<Product> {
+public class ProductRepository implements ModelProductRepository<Product> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

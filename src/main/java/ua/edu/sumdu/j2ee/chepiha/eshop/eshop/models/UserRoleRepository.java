@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
 
 import java.util.List;
 
 @Repository
-public class UserRoleRepository implements ModelRepository<UserRole> {
+public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

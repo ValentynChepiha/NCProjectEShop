@@ -9,21 +9,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.BrandRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.StorageRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Brand;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 
 @Controller
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
     @Autowired
-    private ProductRepository productRepository;
+    private ModelProductRepository<Product> productRepository;
     @Autowired
-    private BrandRepository brandRepository;
+    private ModelRepository<Brand> brandRepository;
     @Autowired
-    private StorageRepository storageRepository;
+    private ModelRepository<Storage> storageRepository;
 
     @GetMapping("/products")
     public String products(Model model){

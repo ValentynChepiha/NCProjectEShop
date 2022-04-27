@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.LocationRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class LocationController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
-    private LocationRepository locationRepository;
+    private ModelRepository<Location> locationRepository;
 
     @GetMapping("/locations")
     public String locations(Model model){

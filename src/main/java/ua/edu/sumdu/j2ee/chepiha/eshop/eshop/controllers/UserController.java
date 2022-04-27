@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.UserRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.UserRoleRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
@@ -23,9 +23,9 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
-    private UserRepository userRepository;
+    private ModelUserRepository<User> userRepository;
     @Autowired
-    private UserRoleRepository userRoleRepository;
+    private ModelUserRoleRepository<UserRole> userRoleRepository;
 
     @GetMapping("/users")
     public String users(Model model){

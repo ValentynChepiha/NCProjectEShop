@@ -5,14 +5,14 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 
 import java.util.List;
 
 @Repository
-public class UserRepository implements ModelRepository<User> {
+public class UserRepository implements ModelUserRepository<User> {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;

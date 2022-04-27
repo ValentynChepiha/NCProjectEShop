@@ -3,15 +3,13 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.LocationRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ClientRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Client;
 
@@ -23,9 +21,9 @@ public class ClientController {
     private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ModelRepository<Client> clientRepository;
     @Autowired
-    private LocationRepository locationRepository;
+    private ModelRepository<Location> locationRepository;
 
     @GetMapping("/clients")
     public String clients(Model model){
