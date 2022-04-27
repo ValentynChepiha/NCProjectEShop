@@ -2,6 +2,8 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
+import java.util.Objects;
+
 public class User {
 
     long id;
@@ -59,5 +61,29 @@ public class User {
         return ValidateService.validateString(login)
                 && ValidateService.validateString(password)
                 && ValidateService.validateString(authority);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                login.equals(user.login) &&
+                password.equals(user.password) &&
+                Objects.equals(authority, user.authority);
+    }
+
+    @Override
+    public int hashCode() {
+        int salt = 31;
+        int result = 7;
+
+        result = salt * result + (int) (id ^ (id >>> 32));
+        result = salt * result + login.hashCode();
+        result = salt * result + password.hashCode();
+        result = salt * result + Objects.hashCode(authority);
+
+        return result;
     }
 }
