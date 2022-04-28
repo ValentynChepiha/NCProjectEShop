@@ -8,17 +8,21 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
 
 @Repository
 public class ProductRepository implements ModelProductRepository<Product> {
 
+    private static final LoggerMsgService logger = new LoggerMsgService(ProductRepository.class);
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Override
     public long create(Product product) {
+        logger.msgDebugCreate(product.toString());
         CreationStatementOracle psc = new CreationStatementOracle();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
@@ -46,11 +50,14 @@ public class ProductRepository implements ModelProductRepository<Product> {
 
         psc.setSql(sqlBuilder.toString() + sqlStatement.toString());
         jdbcTemplate.update(psc, newId);
+        logger.msgDebugCreateNewId(newId.getKey().longValue());
         return newId.getKey().longValue();
     }
 
     @Override
     public void update(Product product) {
+        logger.msgDebugUpdateNewValue(product.toString());
+        logger.msgDebugUpdateOldValue(getOne(product.getId()).toString());
         CreationStatementOracle psc = new CreationStatementOracle();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
@@ -77,30 +84,35 @@ public class ProductRepository implements ModelProductRepository<Product> {
 
     @Override
     public void updateCount(long id, int count){
+        logger.msgDebugUpdateCountProducts(id, count);
         String sql = "update lab3_chepihavv_product set count = ? where id = ?";
         jdbcTemplate.update(sql, count, id);
     }
 
     @Override
     public void delete(long id) {
+        logger.msgDebugDelete(id);
         String sql = "delete from lab3_chepihavv_product where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<Product> getAll() {
+        logger.msgDebugGetAll();
         String sql = "select * from lab3_chepihavv_product order by id";
         return jdbcTemplate.query(sql, new ProductMapper());
     }
 
     @Override
     public List<Product> getAllWithoutOneId(long oneId) {
+        logger.msgDebugGetAllWithoutOneId(oneId);
         String sql = "select * from lab3_chepihavv_product where id != ? order by id";
         return jdbcTemplate.query(sql, new ProductMapper(), oneId);
     }
 
     @Override
     public Product getOne(long id) {
+        logger.msgDebugGetOne(id);
         String sql = "select * from lab3_chepihavv_product where id=?";
         return jdbcTemplate.queryForObject(sql, new ProductMapper(), id);
     }

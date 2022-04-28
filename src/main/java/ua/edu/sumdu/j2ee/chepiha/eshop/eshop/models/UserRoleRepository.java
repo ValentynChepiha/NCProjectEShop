@@ -6,11 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
 
 @Repository
 public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
+
+    private static final LoggerMsgService logger = new LoggerMsgService(UserRoleRepository.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,12 +36,14 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
 
     @Override
     public List<UserRole> getAll() {
+        logger.msgDebugGetAll();
         String sql = "select * from lab3_chepihavv_user_role order by id";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(UserRole.class));
     }
 
     @Override
     public UserRole getOne(long id) {
+        logger.msgDebugGetOne(id);
         String sql = "select * from lab3_chepihavv_user_role where id=?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);
     }
@@ -47,6 +52,7 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
     public String getOneOnlyAuthority(long id) {
         String sql = "select * from lab3_chepihavv_user_role where id=?";
         UserRole userRole = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);
+        logger.msgDebugGetOneOnlyAuthority(id, userRole.getName());
         return userRole.getName();
     }
 }
