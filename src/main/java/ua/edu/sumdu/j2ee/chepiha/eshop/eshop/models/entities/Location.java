@@ -2,6 +2,8 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
+import java.util.Objects;
+
 public class Location {
 
     long id;
@@ -55,5 +57,27 @@ public class Location {
 
     public boolean validate(){
         return ValidateService.validateString(name) && ValidateService.validateString(address);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Location location = (Location) o;
+        return getId() == location.getId() &&
+                Objects.equals(name, location.name) &&
+                Objects.equals(address, location.address);
+    }
+
+    @Override
+    public int hashCode() {
+        int salt = 31;
+        int result = 7;
+
+        result = salt * result + (int) (id ^ (id >>> 32));
+        result = salt * result + Objects.hashCode(name) ;
+        result = salt * result + Objects.hashCode(address);
+
+        return result;
     }
 }

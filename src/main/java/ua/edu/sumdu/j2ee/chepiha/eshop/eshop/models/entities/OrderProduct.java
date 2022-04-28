@@ -1,6 +1,8 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 
+import java.util.Objects;
+
 public class OrderProduct {
 
     long id;
@@ -114,5 +116,41 @@ public class OrderProduct {
 
     public boolean validate(){
         return count>0 && idOrder>0 && idProduct>0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderProduct that = (OrderProduct) o;
+        return id == that.id &&
+                count == that.count &&
+                Float.compare(that.discount, discount) == 0 &&
+                idOrder == that.idOrder &&
+                idGift == that.idGift &&
+                idProduct == that.idProduct &&
+                order.equals(that.order) &&
+                product.equals(that.product);
+    }
+
+    @Override
+    public int hashCode() {
+        int salt = 31;
+        int result = 7;
+
+        result = salt * result + (int) (id ^ (id >>> 32));
+        result = salt * result + count;
+
+        long discountToInt = Float.floatToIntBits(discount);
+        result = salt * result + (int) (discountToInt ^ (discountToInt >>> 32));
+
+        result = salt * result + (int) (idOrder ^ (idOrder >>> 32));
+        result = salt * result + (int) (idGift ^ (idGift >>> 32));
+        result = salt * result + (int) (idProduct ^ (idProduct >>> 32));
+
+        result = salt * result + order.hashCode();
+        result = salt * result + product.hashCode();
+
+        return result;
     }
 }

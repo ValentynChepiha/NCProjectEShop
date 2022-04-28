@@ -2,6 +2,8 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
+import java.util.Objects;
+
 public class Product {
 
     long id;
@@ -132,5 +134,49 @@ public class Product {
                 && idBrand > 0
                 && count >= 0
                 && price >= 0;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id &&
+                idBrand == product.idBrand &&
+                Float.compare(product.price, price) == 0 &&
+                count == product.count &&
+                Float.compare(product.discount, discount) == 0 &&
+                gift == product.gift &&
+                idStorage == product.idStorage &&
+                Objects.equals(name, product.name) &&
+                brand.equals(product.brand) &&
+                storage.equals(product.storage) &&
+                Objects.equals(giftValue, product.giftValue);
+    }
+
+    @Override
+    public int hashCode() {
+        int salt = 31;
+        int result = 7;
+
+        result = salt * result + (int) (id ^ (id >>> 32));
+        result = salt * result + Objects.hashCode(name);
+        result = salt * result + (int) (idBrand ^ (idBrand >>> 32));
+
+        int priceToInt = Float.floatToIntBits(price);
+        result = salt * result + priceToInt;
+        result = salt * result + count;
+
+        int discountToInt = Float.floatToIntBits(discount);
+        result = salt * result + discountToInt;
+
+        result = salt * result + (int) (gift ^ (gift >>> 32));
+        result = salt * result + (int) (idStorage ^ (idStorage >>> 32));
+
+        result = salt * result + Objects.hashCode(brand.hashCode());
+        result = salt * result + Objects.hashCode(storage.hashCode());
+        result = salt * result + Objects.hashCode(giftValue.hashCode());
+
+        return result;
     }
 }

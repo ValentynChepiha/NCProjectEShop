@@ -1,8 +1,11 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ListEquals;
+
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Order {
 
@@ -85,5 +88,34 @@ public class Order {
 
     public boolean validate(){
         return orderProductList.size()>0 && idClient>0 && dOrder!=null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+
+        ListEquals<OrderProduct> listEquals = new ListEquals();
+
+        return id == order.id &&
+                idClient == order.idClient &&
+                Objects.equals(dOrder, order.dOrder) &&
+                listEquals.compare(orderProductList, order.orderProductList);
+    }
+
+    @Override
+    public int hashCode() {
+        int salt = 31;
+        int result = 7;
+
+        result = salt * result + (int) (id ^ (id >>> 32));
+        result = salt * result + Objects.hashCode(dOrder) ;
+        result = salt * result + (int) (idClient ^ (idClient >>> 32));
+        for(OrderProduct orderProduct: orderProductList){
+            result = salt * result + orderProduct.hashCode();
+        }
+
+        return result;
     }
 }

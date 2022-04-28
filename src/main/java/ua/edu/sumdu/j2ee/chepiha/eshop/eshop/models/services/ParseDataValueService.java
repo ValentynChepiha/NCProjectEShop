@@ -1,9 +1,8 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
@@ -16,10 +15,10 @@ import java.util.Arrays;
 @Service
 public class ParseDataValueService {
 
-    private final ProductRepository productRepository;
+    private final ModelProductRepository<Product> productRepository;
 
     @Autowired
-    public ParseDataValueService(ProductRepository productRepository) {
+    public ParseDataValueService(ModelProductRepository<Product> productRepository) {
         this.productRepository = productRepository;
     }
 

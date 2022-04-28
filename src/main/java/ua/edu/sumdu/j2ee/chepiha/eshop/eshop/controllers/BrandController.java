@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.BrandRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Brand;
 
 import java.util.List;
@@ -18,10 +18,10 @@ import java.util.List;
 @Controller
 public class BrandController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BrandController.class.getName());
 
     @Autowired
-    private BrandRepository brandRepository;
+    private ModelRepository<Brand> brandRepository;
 
     @GetMapping("/brands")
     public String brands(Model model){
