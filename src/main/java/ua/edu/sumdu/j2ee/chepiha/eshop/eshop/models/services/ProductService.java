@@ -2,18 +2,21 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.OrderProductRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelOrderProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 
 @Service
 public class ProductService {
 
-    private final  ProductRepository productRepository;
-    private final OrderProductRepository orderProductRepository;
+    private final ModelProductRepository<Product> productRepository;
+    private final ModelOrderProductRepository<OrderProduct> orderProductRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, OrderProductRepository orderProductRepository) {
+    public ProductService(ModelProductRepository<Product> productRepository,
+                          ModelOrderProductRepository<OrderProduct> orderProductRepository) {
         this.productRepository = productRepository;
         this.orderProductRepository = orderProductRepository;
     }

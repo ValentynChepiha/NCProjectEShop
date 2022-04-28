@@ -37,6 +37,7 @@ public class OrderRepository implements ModelRepository<Order> {
         jdbcTemplate.update(sql, order.getDOrder(), order.getIdClient(), order.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_order where id = ?";
         jdbcTemplate.update(sql, id);

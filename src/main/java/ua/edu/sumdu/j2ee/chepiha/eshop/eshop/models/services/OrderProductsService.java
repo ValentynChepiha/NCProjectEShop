@@ -2,11 +2,12 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.OrderProductRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.OrderRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelOrderProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 
 import java.text.ParseException;
 import java.util.List;
@@ -14,15 +15,18 @@ import java.util.List;
 @Service
 public class OrderProductsService {
 
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final OrderProductRepository orderProductRepository;
+    private final ModelRepository<Order> orderRepository;
+    private final ModelProductRepository<Product> productRepository;
+    private final ModelOrderProductRepository<OrderProduct> orderProductRepository;
+
     private final ProductService productService;
     private final ParseDataValueService parseDataValueService;
 
     @Autowired
-    public OrderProductsService(OrderRepository orderRepository, ProductRepository productRepository,
-                                OrderProductRepository orderProductRepository, ProductService productService,
+    public OrderProductsService(ModelRepository<Order> orderRepository,
+                                ModelProductRepository<Product> productRepository,
+                                ModelOrderProductRepository<OrderProduct> orderProductRepository,
+                                ProductService productService,
                                 ParseDataValueService parseDataValueService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;

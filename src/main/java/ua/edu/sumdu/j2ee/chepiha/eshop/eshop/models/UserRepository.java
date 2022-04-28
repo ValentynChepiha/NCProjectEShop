@@ -37,11 +37,13 @@ public class UserRepository implements ModelUserRepository<User> {
         jdbcTemplate.update(sql, user.getPassword(), user.getAuthority(), user.getId());
     }
 
+    @Override
     public void updateRole(User user) {
         String sql = "update lab3_chepihavv_user set authority = ? where id = ?";
         jdbcTemplate.update(sql, user.getAuthority(), user.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_user where id = ?";
         jdbcTemplate.update(sql, id);

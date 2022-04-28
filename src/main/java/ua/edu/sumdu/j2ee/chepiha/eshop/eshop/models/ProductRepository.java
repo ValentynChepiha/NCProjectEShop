@@ -75,11 +75,13 @@ public class ProductRepository implements ModelProductRepository<Product> {
         jdbcTemplate.update(psc, newId);
     }
 
+    @Override
     public void updateCount(long id, int count){
         String sql = "update lab3_chepihavv_product set count = ? where id = ?";
         jdbcTemplate.update(sql, count, id);
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_product where id = ?";
         jdbcTemplate.update(sql, id);
@@ -91,6 +93,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
         return jdbcTemplate.query(sql, new ProductMapper());
     }
 
+    @Override
     public List<Product> getAllWithoutOneId(long oneId) {
         String sql = "select * from lab3_chepihavv_product where id != ? order by id";
         return jdbcTemplate.query(sql, new ProductMapper(), oneId);

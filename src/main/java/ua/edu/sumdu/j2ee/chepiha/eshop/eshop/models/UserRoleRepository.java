@@ -26,7 +26,9 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
         // nothing here
     }
 
+    @Override
     public void delete(long id) {
+        // nothing here
     }
 
     @Override
@@ -41,6 +43,7 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);
     }
 
+    @Override
     public String getOneOnlyAuthority(long id) {
         String sql = "select * from lab3_chepihavv_user_role where id=?";
         UserRole userRole = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);

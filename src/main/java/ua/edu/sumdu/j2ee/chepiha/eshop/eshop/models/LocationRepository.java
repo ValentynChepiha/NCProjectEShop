@@ -36,6 +36,7 @@ public class LocationRepository implements ModelRepository<Location> {
         jdbcTemplate.update(sql, location.getName(), location.getAddress(), location.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_location where id = ?";
         jdbcTemplate.update(sql, id);

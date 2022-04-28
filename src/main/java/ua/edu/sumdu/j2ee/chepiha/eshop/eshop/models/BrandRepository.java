@@ -38,6 +38,7 @@ public class BrandRepository implements ModelRepository<Brand> {
         jdbcTemplate.update(sql, brand.getName(), brand.getCountry(), brand.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_brand where id = ?";
         jdbcTemplate.update(sql, id);

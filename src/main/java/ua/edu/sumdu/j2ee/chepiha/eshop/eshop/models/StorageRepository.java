@@ -37,6 +37,7 @@ public class StorageRepository implements ModelRepository<Storage> {
         jdbcTemplate.update(sql, storage.getName(), storage.getIdLocation(), storage.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_storage where id = ?";
         jdbcTemplate.update(sql, id);

@@ -40,6 +40,7 @@ public class ClientRepository implements ModelRepository<Client> {
                 client.getIdLocation(), client.getId());
     }
 
+    @Override
     public void delete(long id) {
         String sql = "delete from lab3_chepihavv_client where id = ?";
         jdbcTemplate.update(sql, id);
