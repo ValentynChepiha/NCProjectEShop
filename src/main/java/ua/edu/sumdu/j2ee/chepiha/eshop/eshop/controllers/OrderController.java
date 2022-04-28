@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 public class OrderController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderController.class.getName());
     @Autowired
     private ModelRepository<Order> orderRepository;
     @Autowired

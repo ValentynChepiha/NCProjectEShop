@@ -18,7 +18,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 @Controller
 public class ProductController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class.getName());
     @Autowired
     private ModelProductRepository<Product> productRepository;
     @Autowired

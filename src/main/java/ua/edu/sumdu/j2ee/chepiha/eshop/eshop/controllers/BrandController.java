@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 public class BrandController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(BrandController.class.getName());
 
     @Autowired
     private ModelRepository<Brand> brandRepository;

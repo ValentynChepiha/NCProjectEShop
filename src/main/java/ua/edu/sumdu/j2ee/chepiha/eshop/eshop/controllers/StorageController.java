@@ -16,7 +16,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
 @Controller
 public class StorageController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StorageController.class.getName());
     @Autowired
     private ModelRepository<Storage> storageRepository;
     @Autowired

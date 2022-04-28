@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 public class ClientController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ClientController.class.getName());
 
     @Autowired
     private ModelRepository<Client> clientRepository;

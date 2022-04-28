@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class LocationController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocationController.class.getName());
 
     @Autowired
     private ModelRepository<Location> locationRepository;

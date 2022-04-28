@@ -20,7 +20,7 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class.getName());
 
     @Autowired
     private ModelUserRepository<User> userRepository;
