@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,7 @@ public class ProductToOnlineRepository implements ModelSelectRepository<ProductT
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @Cacheable("products")
     public List<ProductToOnline> getAll() {
         logger.msgDebugGetAll();
         String sql = "select a.id, a.name, b.name as brand, a.price, a.count, nvl(a.discount, 0) as discount, " +

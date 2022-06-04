@@ -117,7 +117,7 @@ public class Client {
         result = salt * result + Objects.hashCode(email);
         result = salt * result + Objects.hashCode(phone);
         result = salt * result + (int) (idLocation ^ (idLocation >>> 32));
-        result = salt * result + location.hashCode();
+        result = salt * result + Objects.hashCode(location);
 
         return result;
     }
