@@ -1,11 +1,13 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.ProductToOnline;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
@@ -116,4 +118,5 @@ public class ProductRepository implements ModelProductRepository<Product> {
         String sql = "select * from lab3_chepihavv_product where id=?";
         return jdbcTemplate.queryForObject(sql, new ProductMapper(), id);
     }
+
 }

@@ -179,4 +179,21 @@ public class Product {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", idBrand=" + idBrand +
+                ", price=" + price +
+                ", count=" + count +
+                ", discount=" + discount +
+                ", gift=" + gift +
+                ", idStorage=" + idStorage +
+                ", brand=" + brand +
+                ", storage=" + storage +
+                ", giftValue=" + giftValue +
+                '}';
+    }
 }

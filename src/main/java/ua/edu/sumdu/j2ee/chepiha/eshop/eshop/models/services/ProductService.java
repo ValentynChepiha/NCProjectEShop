@@ -42,4 +42,5 @@ public class ProductService {
         order.getOrderProductList().forEach(product ->
                 product.setProduct( productRepository.getOne(product.getIdProduct()) ));
     }
+
 }
