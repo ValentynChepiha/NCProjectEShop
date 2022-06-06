@@ -38,18 +38,23 @@ public class ProductToOnlineRepository implements ModelSelectApiRepository<Produ
     @Override
     public List<ProductToOnline> getQueryList(List<Long> listId) {
         logger.msgDebug("getQueryList: get list for id's " + listId );
+        psc.clearStatements();
         StringBuilder sql = new StringBuilder("select a.id, a.name, b.name as brand, a.price, a.count, nvl(a.discount, 0) as discount, " +
                 " nvl(a.gift, 0) as id_gift, nvl(a2.name, 'empty')  as name_gift from lab3_chepihavv_product a " +
                 " left join lab3_chepihavv_brand b on a.id_brand = b.id " +
-                " left join lab3_chepihavv_product a2 on a.gift = a2.id " +
-                " where a.id in (?");
-        psc.clearStatements();
-        psc.addStatement( listId.get(0) );
-        for(int i = 1; i < listId.size(); i++) {
-            sql.append(", ?");
-            psc.addStatement( listId.get(i) );
+                " left join lab3_chepihavv_product a2 on a.gift = a2.id " );
+
+        if(listId.size() > 0) {
+            sql.append(" where a.id in (?");
+            psc.addStatement( listId.get(0) );
+            for(int i = 1; i < listId.size(); i++) {
+                sql.append(", ?");
+                psc.addStatement( listId.get(i) );
+            }
+            sql.append(")");
+        } else {
+            sql.append(" where 1=2");
         }
-        sql.append(")");
 
         logger.msgDebug("getQueryList: reslt sql " + sql.toString() );
         psc.setSql(sql.toString());

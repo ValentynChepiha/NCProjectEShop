@@ -18,12 +18,17 @@ public class ParseDataValueService {
     public List<Long> convertStringToList(String data, String separator) {
         List<Long> result = new ArrayList<>();
         logger.msgDebug("data - " + data + "; separator - " + separator );
-        Arrays.
-                stream(data.split(separator)).
-                map(Long::valueOf).
-                forEach(result::add);
-        logger.msgDebug("result - " + result );
-        return  result;
+        try {
+            Arrays.
+                    stream(data.split(separator)).
+                    map(Long::valueOf).
+                    forEach(result::add);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            logger.msgDebug("result - " + result );
+            return  result;
+        }
     };
 
 }
