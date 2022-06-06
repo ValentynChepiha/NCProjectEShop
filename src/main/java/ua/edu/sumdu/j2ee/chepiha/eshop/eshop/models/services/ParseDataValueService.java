@@ -1,47 +1,29 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductToOnlineRepository;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class ParseDataValueService {
 
-    private final ModelProductRepository<Product> productRepository;
+    private static final LoggerMsgService logger = new LoggerMsgService(ProductToOnlineRepository.class);
 
-    @Autowired
-    public ParseDataValueService(ModelProductRepository<Product> productRepository) {
-        this.productRepository = productRepository;
+    public ParseDataValueService() {
     }
 
-    public Date parseStringToDate(String stringDate) throws ParseException {
-        SimpleDateFormat f=new SimpleDateFormat("dd.MM.yyyy");
-        return new Date(f.parse(stringDate).getTime());
-    }
+    public List<Long> convertStringToList(String data, String separator) {
+        List<Long> result = new ArrayList<>();
+        logger.msgDebug("data - " + data + "; separator - " + separator );
+        Arrays.
+                stream(data.split(separator)).
+                map(Long::valueOf).
+                forEach(result::add);
+        logger.msgDebug("result - " + result );
+        return  result;
+    };
 
-    public void parseBodyPage(Order order, String bodyPage){
-        Arrays.stream(bodyPage.split("&"))
-                .forEach(element -> {
-                    String[] param = element.split("=");
-                    if(param[0]!=null){
-                        String[] analiseParam = param[0].split("_");
-                        if( "prod".equals(analiseParam[0]) && !"0".equals(param[1]) ){
-                            long idProd = Long.parseLong(analiseParam[1]) ;
-                            Product product =  productRepository.getOne(idProd);
-                            OrderProduct orderProduct = new OrderProduct();
-                            orderProduct.setProduct(product);
-                            orderProduct.setCount(Integer.parseInt(param[1]));
-                            order.addOrderProduct(orderProduct);
-                        }
-                    }
-                });
-    }
 }

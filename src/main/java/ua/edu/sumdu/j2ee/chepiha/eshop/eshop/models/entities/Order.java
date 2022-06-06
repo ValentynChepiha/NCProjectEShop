@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ListEquals;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ListEqualsService;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -96,12 +96,12 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
 
-        ListEquals<OrderProduct> listEquals = new ListEquals();
+        ListEqualsService<OrderProduct> listEqualsService = new ListEqualsService();
 
         return id == order.id &&
                 idClient == order.idClient &&
                 Objects.equals(dOrder, order.dOrder) &&
-                listEquals.compare(orderProductList, order.orderProductList);
+                listEqualsService.compare(orderProductList, order.orderProductList);
     }
 
     @Override

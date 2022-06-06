@@ -19,20 +19,20 @@ public class OrderProductsService {
     private final ModelProductRepository<Product> productRepository;
     private final ModelOrderProductRepository<OrderProduct> orderProductRepository;
 
-    private final ProductService productService;
-    private final ParseDataValueService parseDataValueService;
+    private final ProductBuildService productBuildService;
+    private final ProductParseDataValueService productParseDataValueService;
 
     @Autowired
     public OrderProductsService(ModelRepository<Order> orderRepository,
                                 ModelProductRepository<Product> productRepository,
                                 ModelOrderProductRepository<OrderProduct> orderProductRepository,
-                                ProductService productService,
-                                ParseDataValueService parseDataValueService) {
+                                ProductBuildService productBuildService,
+                                ProductParseDataValueService productParseDataValueService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.orderProductRepository = orderProductRepository;
-        this.productService = productService;
-        this.parseDataValueService = parseDataValueService;
+        this.productBuildService = productBuildService;
+        this.productParseDataValueService = productParseDataValueService;
     }
 
     public Order getOrderProductsForEdit(long idOrder){
@@ -63,14 +63,14 @@ public class OrderProductsService {
         Order order = new Order();
 
         order.setIdClient(orderClient);
-        order.setDOrder(parseDataValueService.parseStringToDate(orderDate));
+        order.setDOrder(productParseDataValueService.parseStringToDate(orderDate));
 
-        parseDataValueService.parseBodyPage(order, orderBody);
+        productParseDataValueService.parseBodyPage(order, orderBody);
         if(order.validate()){
             long id = orderRepository.create(order);
             if(id>0){
                 saveOrderProductsToDB(order, id);
-                productService.setProductCountAfterCreateOrder(order);
+                productBuildService.setProductCountAfterCreateOrder(order);
             }
         }
     }
@@ -86,24 +86,24 @@ public class OrderProductsService {
                                            String orderDate, String orderBody) throws ParseException {
 
         Order order = orderRepository.getOne(orderId);
-        order.setDOrder(parseDataValueService.parseStringToDate(orderDate));
+        order.setDOrder(productParseDataValueService.parseStringToDate(orderDate));
         order.setIdClient(orderClient);
 
-        productService.setProductToOrder(order);
-        productService.setProductCountBeforeUpdateOrder(order);
+        productBuildService.setProductToOrder(order);
+        productBuildService.setProductCountBeforeUpdateOrder(order);
         order.clearOrderProductList();
 
-        parseDataValueService.parseBodyPage(order, orderBody);
+        productParseDataValueService.parseBodyPage(order, orderBody);
         orderRepository.update(order);
         orderProductRepository.deleteByIdOrder(orderId);
         saveOrderProductsToDB(order, orderId);
-        productService.setProductCountAfterCreateOrder(order);
+        productBuildService.setProductCountAfterCreateOrder(order);
     }
 
     public void deleteOrderProducts(long orderId){
         Order order = orderRepository.getOne(orderId);
-        productService.setProductToOrder(order);
-        productService.setProductCountBeforeUpdateOrder(order);
+        productBuildService.setProductToOrder(order);
+        productBuildService.setProductCountBeforeUpdateOrder(order);
 
         orderProductRepository.deleteByIdOrder(orderId);
         orderRepository.delete(orderId);

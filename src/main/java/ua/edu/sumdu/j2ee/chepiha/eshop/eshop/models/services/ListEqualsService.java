@@ -3,7 +3,7 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 import java.util.List;
 import java.util.Objects;
 
-public class ListEquals<T> {
+public class ListEqualsService<T> {
 
     public boolean compare(List<T> listFirst, List<T> listSecond) {
         if (listFirst == null || listSecond == null) {

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     @CacheEvict(value = "products", allEntries = true)
     public long create(Product product) {
         logger.msgDebugCreate(product.toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -61,7 +61,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     public void update(Product product) {
         logger.msgDebugUpdateNewValue(product.toString());
         logger.msgDebugUpdateOldValue(getOne(product.getId()).toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         StringBuilder sqlBuilder = new StringBuilder();

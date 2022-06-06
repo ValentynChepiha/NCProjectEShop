@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.OrderMapper;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class OrderRepository implements ModelRepository<Order> {
     @Override
     public long create(Order order) {
         logger.msgDebugCreate(order.toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         psc.setSql("insert into lab3_chepihavv_order (d_order, id_client) values (?, ?)");

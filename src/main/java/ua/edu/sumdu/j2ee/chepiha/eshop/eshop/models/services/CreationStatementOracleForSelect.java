@@ -1,21 +1,24 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CreationStatementOracle implements PreparedStatementCreator {
+@Service
+public class CreationStatementOracleForSelect implements PreparedStatementCreator {
 
     private String sql;
 
     private List<String> listTypes;
     private List<Object> listObjects;
 
-    public CreationStatementOracle() {
+    public CreationStatementOracleForSelect() {
         listTypes = new ArrayList<>();
         listObjects = new ArrayList<>();
     }
@@ -57,7 +60,7 @@ public class CreationStatementOracle implements PreparedStatementCreator {
     @Override
     public PreparedStatement createPreparedStatement(
             final Connection con) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(sql, new String[] {"id"});
+        PreparedStatement ps = con.prepareStatement(sql);
         for(int i=0; i<listObjects.size(); i++){
             switch (listTypes.get(i)){
                 case "string":

@@ -7,7 +7,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class UserRepository implements ModelUserRepository<User> {
     @Override
     public long create(User user) {
         logger.msgDebugCreate(user.toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         psc.setSql("insert into lab3_chepihavv_user(login, password, authority) values (?, ?, ?)");
