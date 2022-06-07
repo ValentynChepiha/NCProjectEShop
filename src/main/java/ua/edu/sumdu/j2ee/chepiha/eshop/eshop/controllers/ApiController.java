@@ -29,7 +29,7 @@ public class ApiController {
         return productToOnlineRepository.getAll();
     }
 
-    @RequestMapping(value = "/api/goods/{list}")
+    @RequestMapping(value = "/api/goods/{list}", produces = { MediaType.APPLICATION_XML_VALUE })
     public List<ProductToOnline> selectedGoodsGet(@PathVariable String list) {
         logger.info("ApiController selectedGoodsGet start...");
         return productToOnlineRepository.getQueryList(
