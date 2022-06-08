@@ -66,13 +66,30 @@ public class OrderProductsService {
         order.setDOrder(productParseDataValueService.parseStringToDate(orderDate));
 
         productParseDataValueService.parseBodyPage(order, orderBody);
-        if(order.validate()){
-            long id = orderRepository.create(order);
-            if(id>0){
-                saveOrderProductsToDB(order, id);
-                productBuildService.setProductCountAfterCreateOrder(order);
-            }
+        boolean result = saveOrderToDB(order);
+
+//        if(order.validate()){
+//            long id = orderRepository.create(order);
+//            if(id>0){
+//                saveOrderProductsToDB(order, id);
+//                productBuildService.setProductCountAfterCreateOrder(order);
+//            }
+//        }
+    }
+
+    public boolean saveOrderToDB (Order order) {
+        if(!order.validate()){
+            return false;
         }
+
+        long id = orderRepository.create(order);
+        if(id<=0){
+            return false;
+        }
+
+        saveOrderProductsToDB(order, id);
+        productBuildService.setProductCountAfterCreateOrder(order);
+        return true;
     }
 
     public void saveOrderProductsToDB(Order order, long orderId){

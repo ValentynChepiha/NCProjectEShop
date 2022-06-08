@@ -11,6 +11,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Map;
 
 @Service
 public class ProductParseDataValueService {
@@ -34,14 +35,23 @@ public class ProductParseDataValueService {
                     if(param[0]!=null){
                         String[] analiseParam = param[0].split("_");
                         if( "prod".equals(analiseParam[0]) && !"0".equals(param[1]) ){
-                            long idProd = Long.parseLong(analiseParam[1]) ;
-                            Product product =  productRepository.getOne(idProd);
-                            OrderProduct orderProduct = new OrderProduct();
-                            orderProduct.setProduct(product);
-                            orderProduct.setCount(Integer.parseInt(param[1]));
-                            order.addOrderProduct(orderProduct);
+                            addOneProductToOrder(order, Long.parseLong(analiseParam[1]), Integer.parseInt(param[1]));
                         }
                     }
                 });
+    }
+
+    public void parseIdCountMap (Order order, Map<Long, Integer> idCount) {
+        for ( Map.Entry<Long, Integer> entry: idCount.entrySet() ) {
+            addOneProductToOrder(order, entry.getKey(), entry.getValue());
+        }
+    }
+
+    public void addOneProductToOrder(Order order, Long id, int count) {
+        Product product =  productRepository.getOne(id);
+        OrderProduct orderProduct = new OrderProduct();
+        orderProduct.setProduct(product);
+        orderProduct.setCount(count);
+        order.addOrderProduct(orderProduct);
     }
 }
