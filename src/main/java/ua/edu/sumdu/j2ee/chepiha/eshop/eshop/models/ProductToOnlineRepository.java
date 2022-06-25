@@ -27,11 +27,7 @@ public class ProductToOnlineRepository implements ModelSelectApiRepository<Produ
     @Cacheable("products")
     public List<ProductToOnline> getAll() {
         logger.msgDebugGetAll();
-        String sql = "select a.id, a.name, b.name as brand, a.price, a.count, nvl(a.discount, 0) as discount, " +
-                " nvl(a.gift, 0) as id_gift, nvl(a2.name, 'empty')  as name_gift from lab3_chepihavv_product a " +
-                " left join lab3_chepihavv_brand b on a.id_brand = b.id " +
-                " left join lab3_chepihavv_product a2 on a.gift = a2.id";
-
+        String sql = "select * from LAB3_CHEPIHAVV_PROTUCT_TO_ONLINE order by id";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(ProductToOnline.class));
     }
 
@@ -39,13 +35,10 @@ public class ProductToOnlineRepository implements ModelSelectApiRepository<Produ
     public List<ProductToOnline> getQueryList(List<Long> listId) {
         logger.msgDebug("getQueryList: get list for id's " + listId );
         psc.clearStatements();
-        StringBuilder sql = new StringBuilder("select a.id, a.name, b.name as brand, a.price, a.count, nvl(a.discount, 0) as discount, " +
-                " nvl(a.gift, 0) as id_gift, nvl(a2.name, 'empty')  as name_gift from lab3_chepihavv_product a " +
-                " left join lab3_chepihavv_brand b on a.id_brand = b.id " +
-                " left join lab3_chepihavv_product a2 on a.gift = a2.id " );
+        StringBuilder sql = new StringBuilder("select * from LAB3_CHEPIHAVV_PROTUCT_TO_ONLINE ");
 
         if(listId.size() > 0) {
-            sql.append(" where a.id in (?");
+            sql.append(" where id in (?");
             psc.addStatement( listId.get(0) );
             for(int i = 1; i < listId.size(); i++) {
                 sql.append(", ?");
@@ -56,7 +49,7 @@ public class ProductToOnlineRepository implements ModelSelectApiRepository<Produ
             sql.append(" where 1=2");
         }
 
-        logger.msgDebug("getQueryList: reslt sql " + sql.toString() );
+        logger.msgDebug("getQueryList: result sql " + sql.toString() );
         psc.setSql(sql.toString());
         return jdbcTemplate.query(psc, new BeanPropertyRowMapper<>(ProductToOnline.class));
     }
