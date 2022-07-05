@@ -148,8 +148,8 @@ public class OrderProduct {
         result = salt * result + (int) (idGift ^ (idGift >>> 32));
         result = salt * result + (int) (idProduct ^ (idProduct >>> 32));
 
-        result = salt * result + order.hashCode();
-        result = salt * result + product.hashCode();
+        result = salt * result + Objects.hashCode(order);
+        result = salt * result + Objects.hashCode(product);
 
         return result;
     }

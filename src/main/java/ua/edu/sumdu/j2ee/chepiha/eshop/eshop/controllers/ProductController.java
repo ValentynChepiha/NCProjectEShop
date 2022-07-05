@@ -50,13 +50,37 @@ public class ProductController {
         logger.info("Page saving new product");
 
         Product product = new Product();
+
+        logger.info("productsAddPost :: create :: " + product);
+
         product.setName(productName);
+
+        logger.info("productsAddPost :: add productName :: " + productName);
+
         product.setIdBrand(productBrand);
+
+        logger.info("productsAddPost :: add productBrand :: " + productBrand);
+
         product.setPrice(productPrice);
+
+        logger.info("productsAddPost :: add productPrice :: " + productPrice);
+
         product.setCount(productCount);
+
+        logger.info("productsAddPost :: add productCount :: " + productCount);
+
         product.setDiscount(productDiscount);
+
+        logger.info("productsAddPost :: add productDiscount :: " + productDiscount);
+
         product.setGift(productGift);
+
+        logger.info("productsAddPost :: add productGift :: " + productGift);
+
         product.setIdStorage(productStorage);
+
+        logger.info("productsAddPost :: add productStorage :: " + productStorage);
+        logger.info("productsAddPost :: result product :: " + product);
 
         if(product.validate()){
             productRepository.create(product);

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelOrderProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.OrderProductMapper;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class OrderProductRepository implements ModelOrderProductRepository<Order
     @Override
     public long create(OrderProduct orderProduct) {
         logger.msgDebugCreate(orderProduct.toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         psc.setSql("insert into lab3_chepihavv_order_products (id_order, id_product, id_gift, discount, count) values (?, ?, ?, ?, ?)");

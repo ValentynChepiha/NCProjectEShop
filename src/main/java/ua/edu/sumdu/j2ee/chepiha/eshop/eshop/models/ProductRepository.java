@@ -1,13 +1,14 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracle;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
 
 import java.util.List;
@@ -21,9 +22,10 @@ public class ProductRepository implements ModelProductRepository<Product> {
     private JdbcTemplate jdbcTemplate;
 
     @Override
+    @CacheEvict(value = "products", allEntries = true)
     public long create(Product product) {
         logger.msgDebugCreate(product.toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -55,10 +57,11 @@ public class ProductRepository implements ModelProductRepository<Product> {
     }
 
     @Override
+    @CacheEvict(value = "products", allEntries = true)
     public void update(Product product) {
         logger.msgDebugUpdateNewValue(product.toString());
         logger.msgDebugUpdateOldValue(getOne(product.getId()).toString());
-        CreationStatementOracle psc = new CreationStatementOracle();
+        CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
         StringBuilder sqlBuilder = new StringBuilder();
@@ -83,6 +86,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     }
 
     @Override
+    @CacheEvict(value = "products", allEntries = true)
     public void updateCount(long id, int count){
         logger.msgDebugUpdateCountProducts(id, count);
         String sql = "update lab3_chepihavv_product set count = ? where id = ?";
@@ -90,6 +94,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     }
 
     @Override
+    @CacheEvict(value = "products", allEntries = true)
     public void delete(long id) {
         logger.msgDebugDelete(id);
         String sql = "delete from lab3_chepihavv_product where id = ?";
@@ -116,4 +121,5 @@ public class ProductRepository implements ModelProductRepository<Product> {
         String sql = "select * from lab3_chepihavv_product where id=?";
         return jdbcTemplate.queryForObject(sql, new ProductMapper(), id);
     }
+
 }

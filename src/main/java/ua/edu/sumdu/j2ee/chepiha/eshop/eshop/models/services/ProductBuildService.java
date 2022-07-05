@@ -9,14 +9,14 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 
 @Service
-public class ProductService {
+public class ProductBuildService {
 
     private final ModelProductRepository<Product> productRepository;
     private final ModelOrderProductRepository<OrderProduct> orderProductRepository;
 
     @Autowired
-    public ProductService(ModelProductRepository<Product> productRepository,
-                          ModelOrderProductRepository<OrderProduct> orderProductRepository) {
+    public ProductBuildService(ModelProductRepository<Product> productRepository,
+                               ModelOrderProductRepository<OrderProduct> orderProductRepository) {
         this.productRepository = productRepository;
         this.orderProductRepository = orderProductRepository;
     }
@@ -42,4 +42,5 @@ public class ProductService {
         order.getOrderProductList().forEach(product ->
                 product.setProduct( productRepository.getOne(product.getIdProduct()) ));
     }
+
 }

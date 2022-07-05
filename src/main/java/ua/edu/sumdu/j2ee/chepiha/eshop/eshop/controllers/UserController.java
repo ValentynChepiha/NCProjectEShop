@@ -34,6 +34,18 @@ public class UserController {
         model.addAttribute("users", users);
         return "pages/user/all";
     }
+    
+    // todo:
+    public String signIn(Model model){
+        // https://www.youtube.com/watch?v=rBKxqQJFeHQ
+        return "pages/user/sign-in";
+    }
+
+    // todo:
+    public String signUp(Model model){
+        // https://www.youtube.com/watch?v=rBKxqQJFeHQ
+        return "pages/user/sign-up";
+    }
 
     @GetMapping("/users/add")
     public String usersAddGet(Model model){

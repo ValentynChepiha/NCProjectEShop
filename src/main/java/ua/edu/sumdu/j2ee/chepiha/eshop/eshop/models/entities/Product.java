@@ -156,6 +156,9 @@ public class Product {
 
     @Override
     public int hashCode() {
+
+        System.out.println("Product :: hashCode :: " + this.toString());
+
         int salt = 31;
         int result = 7;
 
@@ -173,10 +176,27 @@ public class Product {
         result = salt * result + (int) (gift ^ (gift >>> 32));
         result = salt * result + (int) (idStorage ^ (idStorage >>> 32));
 
-        result = salt * result + Objects.hashCode(brand.hashCode());
-        result = salt * result + Objects.hashCode(storage.hashCode());
-        result = salt * result + Objects.hashCode(giftValue.hashCode());
+        result = salt * result + Objects.hashCode(brand);
+        result = salt * result + Objects.hashCode(storage);
+        result = salt * result + Objects.hashCode(giftValue);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", idBrand=" + idBrand +
+                ", price=" + price +
+                ", count=" + count +
+                ", discount=" + discount +
+                ", gift=" + gift +
+                ", idStorage=" + idStorage +
+                ", brand=" + brand +
+                ", storage=" + storage +
+                ", giftValue=" + giftValue +
+                '}';
     }
 }
