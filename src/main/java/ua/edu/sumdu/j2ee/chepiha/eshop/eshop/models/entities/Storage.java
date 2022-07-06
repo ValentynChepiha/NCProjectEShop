@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.Objects;
 
@@ -71,7 +71,7 @@ public class Storage {
     }
 
     public boolean validate(){
-        return ValidateService.validateString(name) && idLocation > 0;
+        return ValidateString.validateString(name) && idLocation > 0;
     }
 
     @Override

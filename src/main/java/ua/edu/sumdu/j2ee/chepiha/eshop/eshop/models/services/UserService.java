@@ -9,7 +9,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 @Service
 public class UserService {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(UserService.class);
+    private static final LoggerMsg logger = new LoggerMsg(UserService.class);
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;

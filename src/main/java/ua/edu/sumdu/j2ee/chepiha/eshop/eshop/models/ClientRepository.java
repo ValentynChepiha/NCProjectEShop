@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Client;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
 @Repository
 public class ClientRepository implements ModelRepository<Client> {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(ClientRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(ClientRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 

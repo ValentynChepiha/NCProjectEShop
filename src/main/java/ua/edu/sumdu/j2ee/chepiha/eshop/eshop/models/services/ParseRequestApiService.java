@@ -15,9 +15,10 @@ import java.util.Map;
 @Service
 public class ParseRequestApiService {
 
-    private final ParseDataValueService parseDataValueService;
     private final ClientRepository clientRepository;
     private final LocationRepository locationRepository;
+
+    private final ParseDataValueService parseDataValueService;
     private final ProductParseDataValueService productParseDataValueService;
     private final OrderProductsService orderProductsService;
 

@@ -13,7 +13,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.List;
 
@@ -81,7 +81,7 @@ public class UserController {
 
         user.setAuthority( userRoleRepository.getOneOnlyAuthority(userRole) );
 
-        if(ValidateService.validateString(userPass)){
+        if(ValidateString.validateString(userPass)){
             user.setPassword(userPass);
             userRepository.update(user);
         } else {

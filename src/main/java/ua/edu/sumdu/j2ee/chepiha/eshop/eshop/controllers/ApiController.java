@@ -18,6 +18,7 @@ public class ApiController {
     private static final Logger logger = LoggerFactory.getLogger(ApiController.class.getName());
 
     private final ModelSelectApiRepository<ProductToOnline> productToOnlineRepository;
+
     private final ParseDataValueService parseDataValueService;
     private final ParseRequestApiService parseRequestApiService;
 

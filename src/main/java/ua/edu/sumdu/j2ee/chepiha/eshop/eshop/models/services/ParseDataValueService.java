@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Service
 public class ParseDataValueService {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(ProductToOnlineRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(ProductToOnlineRepository.class);
 
     public ParseDataValueService() {
     }

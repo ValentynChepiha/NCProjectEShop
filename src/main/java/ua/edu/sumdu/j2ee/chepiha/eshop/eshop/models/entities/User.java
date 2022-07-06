@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
@@ -61,9 +61,9 @@ public class User {
     }
 
     public boolean validate(){
-        return ValidateService.validateString(login)
-                && ValidateService.validateString(password)
-                && ValidateService.validateString(authority);
+        return ValidateString.validateString(login)
+                && ValidateString.validateString(password)
+                && ValidateString.validateString(authority);
     }
 
     @Override

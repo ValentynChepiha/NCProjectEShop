@@ -1,14 +1,13 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
-import org.springframework.stereotype.Service;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 
 import java.util.List;
 import java.util.Objects;
 
-@Service
-public class ListEqualsService<T> {
+public class EqualListsOrderProduct {
 
-    public boolean compare(List<T> listFirst, List<T> listSecond) {
+    public static boolean compare(List<OrderProduct> listFirst, List<OrderProduct> listSecond) {
         if (listFirst == null || listSecond == null) {
             return false;
         }

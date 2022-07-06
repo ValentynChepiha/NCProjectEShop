@@ -3,12 +3,12 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoggerMsgService {
+public class LoggerMsg {
 
     private Logger logger = null;
     private String className = null;
 
-    public LoggerMsgService(Class className) {
+    public LoggerMsg(Class className) {
         logger = LoggerFactory.getLogger(className.getName());
         this.className = className.getSimpleName();
     }

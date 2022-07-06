@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.Objects;
 
@@ -129,7 +129,7 @@ public class Product {
     }
 
     public boolean validate(){
-        return ValidateService.validateString(name)
+        return ValidateString.validateString(name)
                 && idStorage > 0
                 && idBrand > 0
                 && count >= 0

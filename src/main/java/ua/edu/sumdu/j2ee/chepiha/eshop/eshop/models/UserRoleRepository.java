@@ -6,14 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
 @Repository
 public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(UserRoleRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(UserRoleRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 

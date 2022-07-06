@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.Objects;
 
@@ -99,9 +99,9 @@ public class ProductToOnline {
     }
 
     public boolean validate(){
-        return ValidateService.validateString(name)
-                && ValidateService.validateString(brand)
-                && ValidateService.validateString(nameGift)
+        return ValidateString.validateString(name)
+                && ValidateString.validateString(brand)
+                && ValidateString.validateString(nameGift)
                 && count >= 0
                 && price >= 0;
     }

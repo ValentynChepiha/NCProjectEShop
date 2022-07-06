@@ -1,6 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.Objects;
 
@@ -56,7 +56,7 @@ public class Brand {
     }
 
     public boolean validate(){
-        return ValidateService.validateString(country) && ValidateService.validateString(name);
+        return ValidateString.validateString(country) && ValidateString.validateString(name);
     }
 
     @Override

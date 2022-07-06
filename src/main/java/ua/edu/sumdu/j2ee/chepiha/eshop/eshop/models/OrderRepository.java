@@ -8,14 +8,14 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.OrderMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
 @Repository
 public class OrderRepository implements ModelRepository<Order> {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(OrderRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(OrderRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 

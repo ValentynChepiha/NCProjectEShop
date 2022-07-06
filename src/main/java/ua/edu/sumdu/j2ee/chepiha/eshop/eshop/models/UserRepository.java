@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
 @Repository
 public class UserRepository implements ModelUserRepository<User> {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(UserRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(UserRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 

@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelSelectApiRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.ProductToOnline;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForSelect;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsgService;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
 @Repository
 public class ProductToOnlineRepository implements ModelSelectApiRepository<ProductToOnline> {
 
-    private static final LoggerMsgService logger = new LoggerMsgService(ProductToOnlineRepository.class);
+    private static final LoggerMsg logger = new LoggerMsg(ProductToOnlineRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
     private final CreationStatementOracleForSelect psc;
