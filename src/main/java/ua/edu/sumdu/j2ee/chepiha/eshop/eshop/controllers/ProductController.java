@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 
+@Slf4j
 @Controller
 public class ProductController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductController.class.getName());
 
     private final ModelProductRepository<Product> productRepository;
     private final ModelRepository<Brand> brandRepository;
@@ -34,14 +32,14 @@ public class ProductController {
 
     @GetMapping("/products")
     public String products(Model model){
-        logger.info("Info about all product rendering...");
+        log.info("Info about all product rendering...");
         model.addAttribute("products", productRepository.getAll());
         return "pages/product/all";
     }
 
     @GetMapping("/products/add")
     public String productsAddGet(Model model){
-        logger.info("Page create new product");
+        log.info("Page create new product");
         model.addAttribute("products", productRepository.getAll());
         model.addAttribute("brands", brandRepository.getAll());
         model.addAttribute("storages", storageRepository.getAll());
@@ -53,41 +51,32 @@ public class ProductController {
                                   @RequestParam float productPrice, @RequestParam int productCount,
                                   @RequestParam float productDiscount, @RequestParam Long productGift,
                                   @RequestParam Long productStorage, Model model){
-        logger.info("Page saving new product");
-
+        log.info("Page saving new product");
         Product product = new Product();
 
-        logger.info("productsAddPost :: create :: " + product);
-
+        log.debug("productsAddPost :: create :: " + product);
         product.setName(productName);
 
-        logger.info("productsAddPost :: add productName :: " + productName);
-
+        log.debug("productsAddPost :: add productName :: " + productName);
         product.setIdBrand(productBrand);
 
-        logger.info("productsAddPost :: add productBrand :: " + productBrand);
-
+        log.debug("productsAddPost :: add productBrand :: " + productBrand);
         product.setPrice(productPrice);
 
-        logger.info("productsAddPost :: add productPrice :: " + productPrice);
-
+        log.debug("productsAddPost :: add productPrice :: " + productPrice);
         product.setCount(productCount);
 
-        logger.info("productsAddPost :: add productCount :: " + productCount);
-
+        log.debug("productsAddPost :: add productCount :: " + productCount);
         product.setDiscount(productDiscount);
 
-        logger.info("productsAddPost :: add productDiscount :: " + productDiscount);
-
+        log.debug("productsAddPost :: add productDiscount :: " + productDiscount);
         product.setGift(productGift);
 
-        logger.info("productsAddPost :: add productGift :: " + productGift);
-
+        log.debug("productsAddPost :: add productGift :: " + productGift);
         product.setIdStorage(productStorage);
 
-        logger.info("productsAddPost :: add productStorage :: " + productStorage);
-        logger.info("productsAddPost :: result product :: " + product);
-
+        log.debug("productsAddPost :: add productStorage :: " + productStorage);
+        log.debug("productsAddPost :: result product :: " + product);
         if(product.validate()){
             productRepository.create(product);
         }
@@ -96,7 +85,7 @@ public class ProductController {
 
     @GetMapping("/products/edit/{id}")
     public String productsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit product");
+        log.info("Page edit product");
         Product product = productRepository.getOne(id);
         model.addAttribute("products", productRepository.getAllWithoutOneId(product.getId()));
         model.addAttribute("brands", brandRepository.getAll());
@@ -112,7 +101,7 @@ public class ProductController {
                                    @RequestParam Long productGift, @RequestParam Long productStorage,
                                    Model model){
 
-        logger.info("Page updating product");
+        log.info("Page updating product");
 
         Product product = new Product();
         product.setId(productId);
@@ -133,7 +122,7 @@ public class ProductController {
 
     @GetMapping("/products/delete/{id}")
     public String productsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete product");
+        log.info("Page delete product");
 
         Product product = productRepository.getOne(id);
         product.setBrand( brandRepository.getOne(product.getIdBrand()) );
@@ -148,7 +137,7 @@ public class ProductController {
 
     @PostMapping("/products/delete/{id}")
     public String productsDeletePost(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page deleting product");
+        log.info("Page deleting product");
         productRepository.delete(id);
         return "redirect:/products";
     }

@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Order;
 import java.util.Date;
 import java.util.Map;
 
+@Slf4j
 @Service
 public class ParseRequestApiService {
 
@@ -72,6 +74,7 @@ public class ParseRequestApiService {
         location.setName("e-client");
 
         client.setLocation(location);
+        log.debug("Client: " + client.toString());
         return true;
     }
 

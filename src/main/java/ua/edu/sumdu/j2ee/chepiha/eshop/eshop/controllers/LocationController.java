@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +13,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 public class LocationController {
-
-    private static final Logger logger = LoggerFactory.getLogger(LocationController.class.getName());
 
     private final ModelRepository<Location> locationRepository;
 
@@ -28,7 +26,7 @@ public class LocationController {
 
     @GetMapping("/locations")
     public String locations(Model model){
-        logger.info("Info about all locations rendering...");
+        log.info("Info about all locations rendering...");
         List<Location> locations = locationRepository.getAll();
         model.addAttribute("locations", locations);
         return "pages/location/all";
@@ -36,14 +34,14 @@ public class LocationController {
 
     @GetMapping("/locations/add")
     public String locationsAddGet(Model model){
-        logger.info("Page create new location");
+        log.info("Page create new location");
         return "pages/location/add";
     }
 
     @PostMapping("/locations/add")
     public String locationsAddPost(@RequestParam String locationName, @RequestParam String locationAddress,
                                   Model model){
-        logger.info("Page saving new location");
+        log.info("Page saving new location");
         Location location = new Location();
         location.setName(locationName);
         location.setAddress(locationAddress);
@@ -55,7 +53,7 @@ public class LocationController {
 
     @GetMapping("/locations/edit/{id}")
     public String locationsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit location");
+        log.info("Page edit location");
         Location location = locationRepository.getOne(id);
         model.addAttribute("location", location);
         return "pages/location/edit";
@@ -65,7 +63,7 @@ public class LocationController {
     public String locationsEditPost(@RequestParam long locationId, @RequestParam String locationName,
                                     @RequestParam String locationAddress, Model model){
 
-        logger.info("Page updating location");
+        log.info("Page updating location");
         Location location = new Location();
         location.setId(locationId);
         location.setName(locationName);
@@ -78,7 +76,7 @@ public class LocationController {
 
     @GetMapping("/locations/delete/{id}")
     public String locationsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete location");
+        log.info("Page delete location");
         Location location = locationRepository.getOne(id);
         model.addAttribute("location", location);
         return "pages/location/delete";
@@ -86,7 +84,7 @@ public class LocationController {
 
     @PostMapping("/locations/delete/{id}")
     public String locationsDeletePost(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page deleting location");
+        log.info("Page deleting location");
         locationRepository.delete(id);
         return "redirect:/locations";
     }

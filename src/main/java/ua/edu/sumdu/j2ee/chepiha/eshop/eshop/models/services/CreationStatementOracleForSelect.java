@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class CreationStatementOracleForSelect implements PreparedStatementCreator {
 
@@ -80,6 +82,8 @@ public class CreationStatementOracleForSelect implements PreparedStatementCreato
                     break;
             }
         }
+        log.debug("SQL: " + sql);
+        log.debug("Params: " + listObjects.toString());
         return ps;
     }
 

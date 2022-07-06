@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Brand;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 public class BrandController {
-
-    private static final Logger logger = LoggerFactory.getLogger(BrandController.class.getName());
 
     private final ModelRepository<Brand> brandRepository;
 
@@ -29,7 +27,7 @@ public class BrandController {
 
     @GetMapping("/brands")
     public String brands(Model model){
-        logger.info("Info about all brands rendering...");
+        log.info("Info about all brands rendering...");
         List<Brand> brands = brandRepository.getAll();
         model.addAttribute("brands", brands);
         return "pages/brand/all";
@@ -37,14 +35,14 @@ public class BrandController {
 
     @GetMapping("/brands/add")
     public String brandsAddGet(Model model){
-        logger.info("Page create new brand");
+        log.info("Page create new brand");
         return "pages/brand/add";
     }
 
     @PostMapping("/brands/add")
     public String brandsAddPost(@RequestParam String brandName, @RequestParam String brandCountry,
                                 Model model){
-        logger.info("Page saving new brand");
+        log.info("Page saving new brand");
         Brand brand = new Brand();
         brand.setName(brandName);
         brand.setCountry(brandCountry);
@@ -56,7 +54,7 @@ public class BrandController {
 
     @GetMapping("/brands/edit/{id}")
     public String brandsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit brand");
+        log.info("Page edit brand");
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
         return "pages/brand/edit";
@@ -66,7 +64,7 @@ public class BrandController {
     public String brandsEditPost(@RequestParam long brandId, @RequestParam String brandName,
                                  @RequestParam String brandCountry, Model model){
 
-        logger.info("Page updating brand");
+        log.info("Page updating brand");
         Brand brand = new Brand();
         brand.setId(brandId);
         brand.setName(brandName);
@@ -79,7 +77,7 @@ public class BrandController {
 
     @GetMapping("/brands/delete/{id}")
     public String brandsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete brand");
+        log.info("Page delete brand");
         Brand brand = brandRepository.getOne(id);
         model.addAttribute("brand", brand);
         return "pages/brand/delete";
@@ -87,7 +85,7 @@ public class BrandController {
 
     @PostMapping("/brands/delete/{id}")
     public String brandsDeletePost(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page deleting brand");
+        log.info("Page deleting brand");
         brandRepository.delete(id);
         return "redirect:/brands";
     }

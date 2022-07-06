@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +12,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Location;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
 
+@Slf4j
 @Controller
 public class StorageController {
-
-    private static final Logger logger = LoggerFactory.getLogger(StorageController.class.getName());
 
     private final ModelRepository<Storage> storageRepository;
     private final ModelRepository<Location> locationRepository;
@@ -29,21 +27,21 @@ public class StorageController {
 
     @GetMapping("/storages")
     public String storages(Model model){
-        logger.info("Info about all storage rendering...");
+        log.info("Info about all storage rendering...");
         model.addAttribute("storages", storageRepository.getAll());
         return "pages/storage/all";
     }
 
     @GetMapping("/storages/add")
     public String storagesAddGet(Model model){
-        logger.info("Page create new storage");
+        log.info("Page create new storage");
         return "pages/storage/add";
     }
 
     @PostMapping("/storages/add")
     public String storagesAddPost(@RequestParam String storageName, @RequestParam String storageAddress,
                                 Model model){
-        logger.info("Page saving new storage");
+        log.info("Page saving new storage");
 
         Location location = new Location();
         location.setName("storage address");
@@ -62,7 +60,7 @@ public class StorageController {
 
     @GetMapping("/storages/edit/{id}")
     public String storagesEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit storage");
+        log.info("Page edit storage");
         Storage storage = storageRepository.getOne(id);
         storage.setLocation( locationRepository.getOne( storage.getIdLocation() ) );
         model.addAttribute("storage", storage);
@@ -74,7 +72,7 @@ public class StorageController {
                                    @RequestParam String storageName, @RequestParam String storageAddress,
                                    @RequestParam String storageNameLocation, Model model){
 
-        logger.info("Page updating storage");
+        log.info("Page updating storage");
         Storage storage = new Storage();
         storage.setId(storageId);
         storage.setName(storageName);
@@ -94,7 +92,7 @@ public class StorageController {
 
     @GetMapping("/storages/delete/{id}")
     public String storagesDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete storage");
+        log.info("Page delete storage");
         Storage storage = storageRepository.getOne(id);
         storage.setLocation( locationRepository.getOne( storage.getIdLocation() ) );
         model.addAttribute("storage", storage);
@@ -104,7 +102,7 @@ public class StorageController {
     @PostMapping("/storages/delete/{id}")
     public String storagesDeletePost(@PathVariable(value = "id") long id,
                                      @RequestParam long storageIdLocation, Model model){
-        logger.info("Page deleting storage");
+        log.info("Page deleting storage");
         storageRepository.delete(id);
         locationRepository.delete(storageIdLocation);
         return "redirect:/storages";

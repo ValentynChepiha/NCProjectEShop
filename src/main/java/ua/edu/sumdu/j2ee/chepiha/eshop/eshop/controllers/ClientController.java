@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Client;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 public class ClientController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ClientController.class.getName());
 
     private final ModelRepository<Client> clientRepository;
     private final ModelRepository<Location> locationRepository;
@@ -31,7 +29,7 @@ public class ClientController {
 
     @GetMapping("/clients")
     public String clients(Model model){
-        logger.info("Info about all client rendering...");
+        log.info("Info about all client rendering...");
         List<Client> clients = clientRepository.getAll();
         model.addAttribute("clients", clients);
         return "pages/client/all";
@@ -39,7 +37,7 @@ public class ClientController {
 
     @GetMapping("/clients/add")
     public String clientsAddGet(Model model){
-        logger.info("Page create new client");
+        log.info("Page create new client");
         return "pages/client/add";
     }
 
@@ -47,7 +45,7 @@ public class ClientController {
     public String clientsAddPost(@RequestParam String clientName, @RequestParam String clientEmail,
                                  @RequestParam String clientPhone, @RequestParam String clientAddress,
                                 Model model){
-        logger.info("Page saving new client");
+        log.info("Page saving new client");
 
         Location location = new Location();
         location.setName("client address");
@@ -77,7 +75,7 @@ public class ClientController {
 
     @GetMapping("/clients/edit/{id}")
     public String clientsEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit client");
+        log.info("Page edit client");
         Client client = clientRepository.getOne(id);
 
         Location location = locationRepository.getOne(client.getIdLocation());
@@ -93,7 +91,7 @@ public class ClientController {
                                   @RequestParam String clientPhone, @RequestParam String clientAddress,
                                   @RequestParam String clientNameLocation, Model model){
 
-        logger.info("Page updating client");
+        log.info("Page updating client");
         Client client = new Client();
         client.setId(clientId);
         client.setName(clientName);
@@ -115,7 +113,7 @@ public class ClientController {
 
     @GetMapping("/clients/delete/{id}")
     public String clientsDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete client");
+        log.info("Page delete client");
 
         Client client = clientRepository.getOne(id);
 
@@ -129,7 +127,7 @@ public class ClientController {
     @PostMapping("/clients/delete/{id}")
     public String clientsDeletePost(@PathVariable(value = "id") long id, @RequestParam long clientIdLocation,
                                     Model model){
-        logger.info("Page deleting client");
+        log.info("Page deleting client");
         clientRepository.delete(id);
         locationRepository.delete(clientIdLocation);
         return "redirect:/clients";

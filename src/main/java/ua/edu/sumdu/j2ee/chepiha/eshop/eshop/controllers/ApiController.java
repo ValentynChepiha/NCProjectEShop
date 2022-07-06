@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +11,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ParseRequestApiServ
 
 import java.util.List;
 
+@Slf4j
 @RestController
 public class ApiController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ApiController.class.getName());
 
     private final ModelSelectApiRepository<ProductToOnline> productToOnlineRepository;
 
@@ -32,13 +30,13 @@ public class ApiController {
 
     @RequestMapping(value = "/api/goods", produces = { MediaType.APPLICATION_XML_VALUE })
     public List<ProductToOnline> allGoodsGet() {
-        logger.info("ApiController allGoodsGet start...");
+          log.info("ApiController allGoodsGet start...");
         return productToOnlineRepository.getAll();
     }
 
     @RequestMapping(value = "/api/goods/{list}", produces = { MediaType.APPLICATION_XML_VALUE })
     public List<ProductToOnline> selectedGoodsGet(@PathVariable String list) {
-        logger.info("ApiController selectedGoodsGet start...");
+        log.info("ApiController selectedGoodsGet start...");
         return productToOnlineRepository.getQueryList(
                 parseDataValueService.convertStringToList(list, ",")
         );
@@ -46,7 +44,8 @@ public class ApiController {
 
     @RequestMapping(value = "/api/order/create", produces = {MediaType.APPLICATION_JSON_VALUE})
     public String createOrder(@RequestBody String params) {
-        System.out.println( "createOrder :: params -  " + params);
+        log.info("ApiController createOrder start...");
+        log.debug("createOrder :: params -  " + params);
         return parseRequestApiService.start(params) ? "ok" : "error";
     }
 

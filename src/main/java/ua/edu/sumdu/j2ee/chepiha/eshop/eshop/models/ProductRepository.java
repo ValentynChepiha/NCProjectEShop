@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,14 +10,12 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Product;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.ProductMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class ProductRepository implements ModelProductRepository<Product> {
-
-    private static final LoggerMsg logger = new LoggerMsg(ProductRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -28,7 +27,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     @Override
     @CacheEvict(value = "products", allEntries = true)
     public long create(Product product) {
-        logger.msgDebugCreate(product.toString());
+        log.debug("Create: " + product.toString());
         CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
@@ -56,15 +55,15 @@ public class ProductRepository implements ModelProductRepository<Product> {
 
         psc.setSql(sqlBuilder.toString() + sqlStatement.toString());
         jdbcTemplate.update(psc, newId);
-        logger.msgDebugCreateNewId(newId.getKey().longValue());
+        log.debug("Id new: "  + newId.getKey().longValue());
         return newId.getKey().longValue();
     }
 
     @Override
     @CacheEvict(value = "products", allEntries = true)
     public void update(Product product) {
-        logger.msgDebugUpdateNewValue(product.toString());
-        logger.msgDebugUpdateOldValue(getOne(product.getId()).toString());
+        log.debug("Update (old value):" + getOne(product.getId()).toString());
+        log.debug("Update (new value):" + product.toString());
         CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
@@ -92,7 +91,7 @@ public class ProductRepository implements ModelProductRepository<Product> {
     @Override
     @CacheEvict(value = "products", allEntries = true)
     public void updateCount(long id, int count){
-        logger.msgDebugUpdateCountProducts(id, count);
+        log.debug("Update for id = " + id + " count(new value): " + count);
         String sql = "update lab3_chepihavv_product set count = ? where id = ?";
         jdbcTemplate.update(sql, count, id);
     }
@@ -100,28 +99,28 @@ public class ProductRepository implements ModelProductRepository<Product> {
     @Override
     @CacheEvict(value = "products", allEntries = true)
     public void delete(long id) {
-        logger.msgDebugDelete(id);
+        log.debug("Delete by id:" + id);
         String sql = "delete from lab3_chepihavv_product where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public List<Product> getAll() {
-        logger.msgDebugGetAll();
+        log.debug("Get all");
         String sql = "select * from lab3_chepihavv_product order by id";
         return jdbcTemplate.query(sql, new ProductMapper());
     }
 
     @Override
     public List<Product> getAllWithoutOneId(long oneId) {
-        logger.msgDebugGetAllWithoutOneId(oneId);
+        log.debug("Get all without id: " + oneId);
         String sql = "select * from lab3_chepihavv_product where id != ? order by id";
         return jdbcTemplate.query(sql, new ProductMapper(), oneId);
     }
 
     @Override
     public Product getOne(long id) {
-        logger.msgDebugGetOne(id);
+        log.debug("Get by id: " + id);
         String sql = "select * from lab3_chepihavv_product where id=?";
         return jdbcTemplate.queryForObject(sql, new ProductMapper(), id);
     }

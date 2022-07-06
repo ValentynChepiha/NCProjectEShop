@@ -1,19 +1,18 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
-
-    private static final LoggerMsg logger = new LoggerMsg(UserRoleRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -40,14 +39,14 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
 
     @Override
     public List<UserRole> getAll() {
-        logger.msgDebugGetAll();
+        log.debug("Get all");
         String sql = "select * from lab3_chepihavv_user_role order by id";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(UserRole.class));
     }
 
     @Override
     public UserRole getOne(long id) {
-        logger.msgDebugGetOne(id);
+        log.debug("Get by id: " + id);
         String sql = "select * from lab3_chepihavv_user_role where id=?";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);
     }
@@ -56,7 +55,7 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
     public String getOneOnlyAuthority(long id) {
         String sql = "select * from lab3_chepihavv_user_role where id=?";
         UserRole userRole = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserRole.class), id);
-        logger.msgDebugGetOneOnlyAuthority(id, userRole.getName());
+        log.debug("Get authority by id: " + id + ", role: " + userRole.getName());
         return userRole.getName();
     }
 }

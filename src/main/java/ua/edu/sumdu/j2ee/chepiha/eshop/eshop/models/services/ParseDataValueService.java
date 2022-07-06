@@ -1,32 +1,31 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.ProductToOnlineRepository;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ParseDataValueService {
-
-    private static final LoggerMsg logger = new LoggerMsg(ProductToOnlineRepository.class);
 
     public ParseDataValueService() {
     }
 
     public List<Long> convertStringToList(String data, String separator) {
         List<Long> result = new ArrayList<>();
-        logger.msgDebug("data - " + data + "; separator - " + separator );
+        log.debug("data - " + data + "; separator - " + separator );
         try {
             Arrays.
                 stream(data.split(separator)).
                 map(Long::valueOf).
                 forEach(result::add);
-            logger.msgDebug("result - " + result );
+            log.debug("result - " + result );
         } catch (Exception e) {
-            logger.msgError("Can't convert: '" + data +  "; separator: " + separator +  "; to List" , e);
+            log.error("Can't convert: '" + data +  "; separator: " + separator +  "; to List" , e);
         }
         return result;
     };

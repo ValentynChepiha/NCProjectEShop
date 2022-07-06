@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
+@Slf4j
 @Service
 public class CreationStatementOracleForCreateNewEntity implements PreparedStatementCreator {
 
@@ -79,6 +81,8 @@ public class CreationStatementOracleForCreateNewEntity implements PreparedStatem
                     break;
             }
         }
+        log.debug("SQL: " + sql);
+        log.debug("Params: " + listObjects.toString());
         return ps;
     }
 

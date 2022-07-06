@@ -1,15 +1,15 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.UserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 
+@Slf4j
 @Service
 public class UserService {
-
-    private static final LoggerMsg logger = new LoggerMsg(UserService.class);
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -21,7 +21,7 @@ public class UserService {
     }
 
     public void createUser(User user) {
-        logger.msgDebug("createUser :: input User = " + user.toString());
+        log.debug("createUser :: input User = " + user.toString());
         user.setPassword( passwordEncoder.encode( user.getPassword() ) );
 
         if (userRepository.getAll().size() > 0) {
@@ -30,7 +30,7 @@ public class UserService {
             user.setAuthority("ROLE_ADMIN");
         }
 
-        logger.msgDebug("createUser :: before save User = " + user.toString());
+        log.debug("createUser :: before save User = " + user.toString());
         userRepository.create(user);
     }
 

@@ -1,7 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +16,9 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 public class UserController {
-
-    private static final Logger logger = LoggerFactory.getLogger(UserController.class.getName());
 
     private final ModelUserRepository<User> userRepository;
     private final ModelUserRoleRepository<UserRole> userRoleRepository;
@@ -34,7 +32,7 @@ public class UserController {
 
     @GetMapping("/users")
     public String users(Model model){
-        logger.info("Info about all users rendering...");
+        log.info("Info about all users rendering...");
         List<User> users = userRepository.getAll();
         model.addAttribute("users", users);
         return "pages/user/all";
@@ -42,7 +40,7 @@ public class UserController {
     
     @GetMapping("/users/add")
     public String usersAddGet(Model model){
-        logger.info("Page create new user");
+        log.info("Page create new user");
         List<UserRole> roles = userRoleRepository.getAll();
         model.addAttribute("roles", roles);
         return "pages/user/add";
@@ -51,7 +49,7 @@ public class UserController {
     @PostMapping("/users/add")
     public String usersAddPost(@RequestParam String userLogin, @RequestParam String userPass,
                                @RequestParam long userRole, Model model){
-        logger.info("Page saving new user");
+        log.info("Page saving new user");
         User user = new User();
         user.setLogin(userLogin);
         user.setPassword(userPass);
@@ -64,7 +62,7 @@ public class UserController {
 
     @GetMapping("/users/edit/{id}")
     public String usersEditGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page edit user");
+        log.info("Page edit user");
         User user = userRepository.getOne(id);
         model.addAttribute("user", user);
         List<UserRole> roles = userRoleRepository.getAll();
@@ -76,7 +74,7 @@ public class UserController {
     public String usersEditPost(@RequestParam long userId, @RequestParam String userPass,
                                 @RequestParam long userRole, Model model){
 
-        logger.info("Page updating user");
+        log.info("Page updating user");
         User user = userRepository.getOne(userId);
 
         user.setAuthority( userRoleRepository.getOneOnlyAuthority(userRole) );
@@ -93,7 +91,7 @@ public class UserController {
 
     @GetMapping("/users/delete/{id}")
     public String usersDeleteGet(@PathVariable(value = "id") long id, Model model){
-        logger.info("Page delete user");
+        log.info("Page delete user");
         User user = userRepository.getOne(id);
         model.addAttribute("user", user);
         return "pages/user/delete";
@@ -101,7 +99,7 @@ public class UserController {
 
     @PostMapping("/users/delete")
     public String usersDeletePost(@RequestParam long userId, Model model){
-        logger.info("Page deleting user");
+        log.info("Page deleting user");
         userRepository.delete(userId);
         return "redirect:/users";
     }

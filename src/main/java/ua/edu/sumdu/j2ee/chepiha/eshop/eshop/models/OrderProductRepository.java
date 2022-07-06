@@ -1,5 +1,6 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -8,14 +9,12 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelOrderProductReposit
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.OrderProduct;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.mappers.OrderProductMapper;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.LoggerMsg;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 public class OrderProductRepository implements ModelOrderProductRepository<OrderProduct> {
-
-    private static final LoggerMsg logger = new LoggerMsg(OrderProductRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -26,7 +25,7 @@ public class OrderProductRepository implements ModelOrderProductRepository<Order
 
     @Override
     public long create(OrderProduct orderProduct) {
-        logger.msgDebugCreate(orderProduct.toString());
+        log.debug("Create: " + orderProduct.toString());
         CreationStatementOracleForCreateNewEntity psc = new CreationStatementOracleForCreateNewEntity();
         GeneratedKeyHolder newId = new GeneratedKeyHolder();
 
@@ -39,14 +38,14 @@ public class OrderProductRepository implements ModelOrderProductRepository<Order
         psc.addStatement(orderProduct.getCount());
 
         jdbcTemplate.update(psc, newId);
-        logger.msgDebugCreateNewId(newId.getKey().longValue());
+        log.debug("Id new: "  + newId.getKey().longValue());
         return newId.getKey().longValue();
     }
 
     @Override
     public void update(OrderProduct orderProduct) {
-        logger.msgDebugUpdateNewValue(orderProduct.toString());
-        logger.msgDebugUpdateOldValue(getOne(orderProduct.getId()).toString());
+        log.debug("Update (old value):" + getOne(orderProduct.getId()).toString());
+        log.debug("Update (new value):" + orderProduct.toString());
         String sql = "update lab3_chepihavv_order_products set id_order=?, id_product=?, id_gift=?, discount=?, count=? where id = ?";
         jdbcTemplate.update(sql, orderProduct.getIdOrder(), orderProduct.getIdProduct(),
                 orderProduct.getIdGift(), orderProduct.getDiscount(),
@@ -55,42 +54,42 @@ public class OrderProductRepository implements ModelOrderProductRepository<Order
 
     @Override
     public void delete(long id) {
-        logger.msgDebugDelete(id);
+        log.debug("Delete by id:" + id);
         String sql = "delete from lab3_chepihavv_order_products where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void deleteByIdOrder(long idOrder) {
-        logger.msgDebugDeleteByIdOrder(idOrder);
+        log.debug("Delete all by IdOrder: " + idOrder);
         String sql = "delete from lab3_chepihavv_order_products where id_order = ?";
         jdbcTemplate.update(sql, idOrder);
     }
 
     @Override
     public List<OrderProduct> getAll() {
-        logger.msgDebugGetAll();
+        log.debug("Get all");
         String sql = "select * from lab3_chepihavv_order_products order by id";
         return jdbcTemplate.query(sql, new OrderProductMapper());
     }
 
     @Override
     public List<OrderProduct> getOrderProductsByIDOrder(long idOrder){
-        logger.msgDebugGetOrderByIdOrder(idOrder);
+        log.debug("Get all by IdOrder: " + idOrder);
         String sql = "select * from lab3_chepihavv_order_products where id_order = ? order by id";
         return jdbcTemplate.query(sql, new OrderProductMapper(), idOrder);
     }
 
     @Override
     public List<OrderProduct> getOrderProductsWithAllProducts(long idOrder){
-        logger.msgDebugGetFullInfoAboutOrder(idOrder);
+        log.debug("Get full info by IdOrder:" + idOrder);
         String sql = "select rownum as id, ? as id_order, p.id as id_product, p.gift as id_gift, p.discount, o.count from lab3_chepihavv_product p left join  lab3_chepihavv_order_products  o on p.id = o.id_product and o.id_order = ? order by id";
         return jdbcTemplate.query(sql, new OrderProductMapper(), idOrder, idOrder);
     }
 
     @Override
     public OrderProduct getOne(long id) {
-        logger.msgDebugGetOne(id);
+        log.debug("Get by id: " + id);
         String sql = "select * from lab3_chepihavv_order_products where id=?";
         return jdbcTemplate.queryForObject(sql, new OrderProductMapper(), id);
     }
