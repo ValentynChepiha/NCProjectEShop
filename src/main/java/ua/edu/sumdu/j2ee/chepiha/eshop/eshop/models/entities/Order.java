@@ -96,7 +96,7 @@ public class Order {
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
 
-        ListEqualsService<OrderProduct> listEqualsService = new ListEqualsService();
+        ListEqualsService<OrderProduct> listEqualsService = new ListEqualsService<>();
 
         return id == order.id &&
                 idClient == order.idClient &&
