@@ -21,15 +21,14 @@ public class ParseDataValueService {
         logger.msgDebug("data - " + data + "; separator - " + separator );
         try {
             Arrays.
-                    stream(data.split(separator)).
-                    map(Long::valueOf).
-                    forEach(result::add);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
+                stream(data.split(separator)).
+                map(Long::valueOf).
+                forEach(result::add);
             logger.msgDebug("result - " + result );
-            return  result;
+        } catch (Exception e) {
+            logger.msgError("Can't convert: '" + data +  "; separator: " + separator +  "; to List" , e);
         }
+        return result;
     };
 
     public Map<String, String> parseInputParams (String inputData) {

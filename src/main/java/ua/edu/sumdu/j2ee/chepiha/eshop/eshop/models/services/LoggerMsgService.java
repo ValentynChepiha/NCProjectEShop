@@ -13,6 +13,10 @@ public class LoggerMsgService {
         this.className = className.getSimpleName();
     }
 
+    public void msgError(String string, Throwable throwable) {
+        logger.error(string, throwable);
+    }
+
     public void msgDebug(String string) {
         logger.debug(className + ": " + string);
     }
