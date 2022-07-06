@@ -22,10 +22,15 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class.getName());
 
+    private final ModelUserRepository<User> userRepository;
+    private final ModelUserRoleRepository<UserRole> userRoleRepository;
+
     @Autowired
-    private ModelUserRepository<User> userRepository;
-    @Autowired
-    private ModelUserRoleRepository<UserRole> userRoleRepository;
+    public UserController(ModelUserRepository<User> userRepository,
+                          ModelUserRoleRepository<UserRole> userRoleRepository) {
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
+    }
 
     @GetMapping("/users")
     public String users(Model model){
@@ -35,18 +40,6 @@ public class UserController {
         return "pages/user/all";
     }
     
-    // todo:
-    public String signIn(Model model){
-        // https://www.youtube.com/watch?v=rBKxqQJFeHQ
-        return "pages/user/sign-in";
-    }
-
-    // todo:
-    public String signUp(Model model){
-        // https://www.youtube.com/watch?v=rBKxqQJFeHQ
-        return "pages/user/sign-up";
-    }
-
     @GetMapping("/users/add")
     public String usersAddGet(Model model){
         logger.info("Page create new user");
@@ -95,6 +88,21 @@ public class UserController {
             userRepository.updateRole(user);
         }
 
+        return "redirect:/users";
+    }
+
+    @GetMapping("/users/delete/{id}")
+    public String usersDeleteGet(@PathVariable(value = "id") long id, Model model){
+        logger.info("Page delete user");
+        User user = userRepository.getOne(id);
+        model.addAttribute("user", user);
+        return "pages/user/delete";
+    }
+
+    @PostMapping("/users/delete")
+    public String usersDeletePost(@RequestParam long userId, Model model){
+        logger.info("Page deleting user");
+        userRepository.delete(userId);
         return "redirect:/users";
     }
 

@@ -17,10 +17,15 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.Storage;
 public class StorageController {
 
     private static final Logger logger = LoggerFactory.getLogger(StorageController.class.getName());
+
+    private final ModelRepository<Storage> storageRepository;
+    private final ModelRepository<Location> locationRepository;
+
     @Autowired
-    private ModelRepository<Storage> storageRepository;
-    @Autowired
-    private ModelRepository<Location> locationRepository;
+    public StorageController(ModelRepository<Storage> storageRepository, ModelRepository<Location> locationRepository) {
+        this.storageRepository = storageRepository;
+        this.locationRepository = locationRepository;
+    }
 
     @GetMapping("/storages")
     public String storages(Model model){

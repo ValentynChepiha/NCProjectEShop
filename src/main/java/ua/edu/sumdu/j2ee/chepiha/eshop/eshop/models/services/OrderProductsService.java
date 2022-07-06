@@ -67,14 +67,6 @@ public class OrderProductsService {
 
         productParseDataValueService.parseBodyPage(order, orderBody);
         boolean result = saveOrderToDB(order);
-
-//        if(order.validate()){
-//            long id = orderRepository.create(order);
-//            if(id>0){
-//                saveOrderProductsToDB(order, id);
-//                productBuildService.setProductCountAfterCreateOrder(order);
-//            }
-//        }
     }
 
     public boolean saveOrderToDB (Order order) {

@@ -17,12 +17,17 @@ public class ApiController {
 
     private static final Logger logger = LoggerFactory.getLogger(ApiController.class.getName());
 
+    private final ModelSelectApiRepository<ProductToOnline> productToOnlineRepository;
+    private final ParseDataValueService parseDataValueService;
+    private final ParseRequestApiService parseRequestApiService;
+
     @Autowired
-    private ModelSelectApiRepository<ProductToOnline> productToOnlineRepository;
-    @Autowired
-    private ParseDataValueService parseDataValueService;
-    @Autowired
-    private ParseRequestApiService parseRequestApiService;
+    public ApiController(ModelSelectApiRepository<ProductToOnline> productToOnlineRepository,
+                         ParseDataValueService parseDataValueService, ParseRequestApiService parseRequestApiService) {
+        this.productToOnlineRepository = productToOnlineRepository;
+        this.parseDataValueService = parseDataValueService;
+        this.parseRequestApiService = parseRequestApiService;
+    }
 
     @RequestMapping(value = "/api/goods", produces = { MediaType.APPLICATION_XML_VALUE })
     public List<ProductToOnline> allGoodsGet() {

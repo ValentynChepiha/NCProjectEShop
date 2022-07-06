@@ -19,8 +19,12 @@ public class LocationController {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationController.class.getName());
 
+    private final ModelRepository<Location> locationRepository;
+
     @Autowired
-    private ModelRepository<Location> locationRepository;
+    public LocationController(ModelRepository<Location> locationRepository) {
+        this.locationRepository = locationRepository;
+    }
 
     @GetMapping("/locations")
     public String locations(Model model){

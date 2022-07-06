@@ -17,8 +17,12 @@ public class OrderRepository implements ModelRepository<Order> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(OrderRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public OrderRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(Order order) {

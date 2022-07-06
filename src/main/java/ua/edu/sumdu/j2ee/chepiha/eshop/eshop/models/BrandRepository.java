@@ -17,8 +17,12 @@ public class BrandRepository implements ModelRepository<Brand> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(BrandRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public BrandRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(Brand brand) {

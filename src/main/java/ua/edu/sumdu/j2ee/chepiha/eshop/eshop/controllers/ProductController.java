@@ -19,12 +19,18 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelProductRepository;
 public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class.getName());
+
+    private final ModelProductRepository<Product> productRepository;
+    private final ModelRepository<Brand> brandRepository;
+    private final ModelRepository<Storage> storageRepository;
+
     @Autowired
-    private ModelProductRepository<Product> productRepository;
-    @Autowired
-    private ModelRepository<Brand> brandRepository;
-    @Autowired
-    private ModelRepository<Storage> storageRepository;
+    public ProductController(ModelProductRepository<Product> productRepository,
+                             ModelRepository<Brand> brandRepository, ModelRepository<Storage> storageRepository) {
+        this.productRepository = productRepository;
+        this.brandRepository = brandRepository;
+        this.storageRepository = storageRepository;
+    }
 
     @GetMapping("/products")
     public String products(Model model){

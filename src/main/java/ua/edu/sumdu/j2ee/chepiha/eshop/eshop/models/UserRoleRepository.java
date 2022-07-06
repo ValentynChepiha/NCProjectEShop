@@ -15,8 +15,12 @@ public class UserRoleRepository implements ModelUserRoleRepository<UserRole> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(UserRoleRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public UserRoleRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(UserRole userRole) {

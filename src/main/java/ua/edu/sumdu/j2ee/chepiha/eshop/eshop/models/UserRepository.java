@@ -17,8 +17,12 @@ public class UserRepository implements ModelUserRepository<User> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(UserRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public UserRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(User user) {

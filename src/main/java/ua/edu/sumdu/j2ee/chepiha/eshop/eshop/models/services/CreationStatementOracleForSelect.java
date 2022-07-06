@@ -15,8 +15,8 @@ public class CreationStatementOracleForSelect implements PreparedStatementCreato
 
     private String sql;
 
-    private List<String> listTypes;
-    private List<Object> listObjects;
+    private final List<String> listTypes;
+    private final List<Object> listObjects;
 
     public CreationStatementOracleForSelect() {
         listTypes = new ArrayList<>();

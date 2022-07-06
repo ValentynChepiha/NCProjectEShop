@@ -17,8 +17,12 @@ public class LocationRepository implements ModelRepository<Location> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(LocationRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public LocationRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(Location location) {

@@ -17,8 +17,12 @@ public class ClientRepository implements ModelRepository<Client> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(ClientRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public ClientRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(Client client) {

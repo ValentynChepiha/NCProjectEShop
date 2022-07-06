@@ -34,7 +34,7 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
+                    <li sec:authorize="hasRole('ADMIN')" class="nav-item">
                         <a class="nav-link" aria-current="page" href="/users">Users</a>
                     </li>
                     <li class="nav-item">

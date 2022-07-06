@@ -15,16 +15,23 @@ import java.util.Map;
 @Service
 public class ParseRequestApiService {
 
+    private final ParseDataValueService parseDataValueService;
+    private final ClientRepository clientRepository;
+    private final LocationRepository locationRepository;
+    private final ProductParseDataValueService productParseDataValueService;
+    private final OrderProductsService orderProductsService;
+
     @Autowired
-    ParseDataValueService parseDataValueService;
-    @Autowired
-    ClientRepository clientRepository;
-    @Autowired
-    LocationRepository locationRepository;
-    @Autowired
-    ProductParseDataValueService productParseDataValueService;
-    @Autowired
-    OrderProductsService orderProductsService;
+    public ParseRequestApiService(ParseDataValueService parseDataValueService, ClientRepository clientRepository,
+                                  LocationRepository locationRepository,
+                                  ProductParseDataValueService productParseDataValueService,
+                                  OrderProductsService orderProductsService) {
+        this.parseDataValueService = parseDataValueService;
+        this.clientRepository = clientRepository;
+        this.locationRepository = locationRepository;
+        this.productParseDataValueService = productParseDataValueService;
+        this.orderProductsService = orderProductsService;
+    }
 
     @Transactional
     public boolean start(String inputData) {

@@ -1,5 +1,8 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class ValidateService {
 
     public static boolean validateString(String string){

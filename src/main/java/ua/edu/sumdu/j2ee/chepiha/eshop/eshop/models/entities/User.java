@@ -2,12 +2,15 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities;
 
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateService;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class User {
 
     long id;
+    @NotBlank
     String login;
+    @NotBlank
     String password;
     String authority;
 

@@ -17,8 +17,12 @@ public class StorageRepository implements ModelRepository<Storage> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(StorageRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public StorageRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public long create(Storage storage) {

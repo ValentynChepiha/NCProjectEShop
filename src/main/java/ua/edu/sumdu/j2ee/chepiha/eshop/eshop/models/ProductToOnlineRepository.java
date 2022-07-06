@@ -17,11 +17,14 @@ public class ProductToOnlineRepository implements ModelSelectApiRepository<Produ
 
     private static final LoggerMsgService logger = new LoggerMsgService(ProductToOnlineRepository.class);
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-    @Autowired
-    private CreationStatementOracleForSelect psc;
+    private final JdbcTemplate jdbcTemplate;
+    private final CreationStatementOracleForSelect psc;
 
+    @Autowired
+    public ProductToOnlineRepository(JdbcTemplate jdbcTemplate, CreationStatementOracleForSelect psc) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.psc = psc;
+    }
 
     @Override
     @Cacheable("products")

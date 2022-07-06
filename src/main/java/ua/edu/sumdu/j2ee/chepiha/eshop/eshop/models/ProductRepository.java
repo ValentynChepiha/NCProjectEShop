@@ -18,8 +18,12 @@ public class ProductRepository implements ModelProductRepository<Product> {
 
     private static final LoggerMsgService logger = new LoggerMsgService(ProductRepository.class);
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     @CacheEvict(value = "products", allEntries = true)

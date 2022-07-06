@@ -1,6 +1,7 @@
 package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services;
 
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -8,12 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
+@Service
 public class CreationStatementOracleForCreateNewEntity implements PreparedStatementCreator {
 
     private String sql;
 
-    private List<String> listTypes;
-    private List<Object> listObjects;
+    private final List<String> listTypes;
+    private final List<Object> listObjects;
 
     public CreationStatementOracleForCreateNewEntity() {
         listTypes = new ArrayList<>();

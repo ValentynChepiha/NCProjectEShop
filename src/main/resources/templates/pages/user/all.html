@@ -36,6 +36,8 @@
                 <td th:text="${user.authority}"/>
                 <td>
                     <a class="btn btn-outline-success btn-sm" role="button" th:href="'users/edit/'+${user.id}">Edit</a>
+                    &nbsp;
+                    <a class="btn btn-outline-danger btn-sm" role="button" th:href="'users/delete/'+${user.id}">Delete</a>
                 </td>
             </tr>
 

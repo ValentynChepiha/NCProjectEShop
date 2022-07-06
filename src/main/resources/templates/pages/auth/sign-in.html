@@ -9,31 +9,30 @@
 </head>
 <body>
 
-<header th:insert="toolbars/header :: header"></header>
-
 <main class="content">
+    <div class="d-md-flex justify-content-md-end col-11">
+        <a th:href="@{/signup}" >Sign up</a>
+    </div>
+
     <div class="container mt-5 mb-5">
 
-        <form method="post" action="/signin" name="formSignIn"  class="offset-md-4 col-md-4 needs-validation"
-              novalidate>
+        <form method="post" th:action="@{/authenticateTheUser}" name="formSignIn"  class="offset-md-4 col-md-4 needs-validation"  novalidate>
 
-            <label for="divFormSignIn" style="font-size: xx-large">Enter values</label>
+            <label for="divFormSignIn" style="font-size: xx-large">Please sign in</label>
             <div class="form-floating mb-3" id="divFormSignIn">
-                <input type="text" class="form-control" name="userName" id="userName" placeholder="Enter login"
-                       required autofocus>
-                <label for="userName">Username</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter login" required autofocus>
+                <label for="username">Login</label>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please enter a username.
+                    Please enter a login.
                 </div>
             </div>
 
             <div class="form-floating mb-3">
-                <input type="password" class="form-control" name="password" id="password" placeholder="Password"
-                       pattern="^(\S){4}$" required autofocus>
-                <label for="userName">Password</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Password" required autofocus>
+                <label for="password">Password</label>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -42,18 +41,9 @@
                 </div>
             </div>
 
-            <div class="mb-3 form-check">
-                <input type="checkbox" class="form-check-input" id="showPass">
-                <label class="form-check-label" for="showPass">Show password</label>
+            <div class="form-floating mb-3 d-md-flex justify-content-md-end">
+                <button class="btn btn-lg btn-outline-primary btn-block" type="submit">Sign in</button>
             </div>
-
-
-            <div class="form-floating mb-3 d-md-flex justify-content-md-center">
-                <button class="btn btn-md btn-outline-success btn-block" type="submit">Create</button>
-                &nbsp;
-                <button class="btn btn-md btn-outline-danger btn-block" type="button">Cancel</button>
-            </div>
-
 
         </form>
 
@@ -61,7 +51,6 @@
 </main>
 
 <footer th:insert="toolbars/footer :: footer"></footer>
-
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
@@ -83,17 +72,6 @@
                     form.classList.add('was-validated')
                 }, false)
             })
-
-        const checkBox = document.getElementById("showPass")
-        const inputUserPass = document.getElementById("password")
-
-        checkBox.addEventListener('click', event => {
-            (event.target.checked)
-                ? inputUserPass.setAttribute('type', 'text')
-                : inputUserPass.setAttribute('type', 'password');
-        })
-
-
     })()
 </script>
 

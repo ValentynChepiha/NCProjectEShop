@@ -20,10 +20,14 @@ public class ClientController {
 
     private static final Logger logger = LoggerFactory.getLogger(ClientController.class.getName());
 
+    private final ModelRepository<Client> clientRepository;
+    private final ModelRepository<Location> locationRepository;
+
     @Autowired
-    private ModelRepository<Client> clientRepository;
-    @Autowired
-    private ModelRepository<Location> locationRepository;
+    public ClientController(ModelRepository<Client> clientRepository, ModelRepository<Location> locationRepository) {
+        this.clientRepository = clientRepository;
+        this.locationRepository = locationRepository;
+    }
 
     @GetMapping("/clients")
     public String clients(Model model){

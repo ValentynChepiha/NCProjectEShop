@@ -17,14 +17,20 @@ import java.util.List;
 public class OrderController {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderController.class.getName());
+
+    private final ModelRepository<Order> orderRepository;
+    private final ModelRepository<Product> productRepository;
+    private final ModelRepository<Client> clientRepository;
+    private final OrderProductsService orderProductsService;
+
     @Autowired
-    private ModelRepository<Order> orderRepository;
-    @Autowired
-    private ModelRepository<Product> productRepository;
-    @Autowired
-    private ModelRepository<Client> clientRepository;
-    @Autowired
-    private OrderProductsService orderProductsService;
+    public OrderController(ModelRepository<Order> orderRepository, ModelRepository<Product> productRepository,
+                           ModelRepository<Client> clientRepository, OrderProductsService orderProductsService) {
+        this.orderRepository = orderRepository;
+        this.productRepository = productRepository;
+        this.clientRepository = clientRepository;
+        this.orderProductsService = orderProductsService;
+    }
 
     @GetMapping("/orders")
     public String orders(Model model){
