@@ -1,0 +1,1 @@
+truncate table "LAB3_CHEPIHAVV_USER";

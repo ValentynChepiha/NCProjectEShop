@@ -16,6 +16,13 @@
         <form method="post" th:action="@{/signup}" name="formSignIn"  class="offset-md-4 col-md-4 needs-validation"
               th:object="${user}" novalidate>
 
+            <th:block th:if="${resultCreate} == false">
+                <div class="alert alert-danger" role="alert">
+                    Error. User didn't create. User already present.
+                </div>
+            </th:block>
+
+
             <label for="divFormSignIn" style="font-size: xx-large">Enter the value</label>
             <div class="form-floating mb-3" id="divFormSignIn">
                 <input type="text" class="form-control" name="login" id="login" th:field="*{login}" placeholder="Enter login"

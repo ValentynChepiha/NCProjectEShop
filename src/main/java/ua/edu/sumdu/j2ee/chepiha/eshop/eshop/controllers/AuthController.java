@@ -42,7 +42,10 @@ public class AuthController {
         if(bindingResult.hasErrors()) {
             return "/pages/auth/sign-up";
         }
-        userService.createUser(user);
+        if(!userService.createUser(user)) {
+            model.addAttribute("resultCreate", false);
+            return "/pages/auth/sign-up";
+        }
         return "redirect:/signin";
     }
 

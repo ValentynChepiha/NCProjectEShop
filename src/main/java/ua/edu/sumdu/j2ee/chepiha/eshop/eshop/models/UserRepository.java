@@ -2,6 +2,7 @@ package ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -11,6 +12,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.CreationStatementOracleForCreateNewEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -72,6 +74,22 @@ public class UserRepository implements ModelUserRepository<User> {
     public User getOne(long id) {
         log.debug("Get by id: " + id);
         String sql = "select * from lab3_chepihavv_user where id=?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public User getOneByName(String login) {
+        log.debug("Get by name: " + login);
+        String sql = "select * from lab3_chepihavv_user where login = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(User.class), login);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
+

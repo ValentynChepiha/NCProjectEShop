@@ -12,7 +12,7 @@ import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.interfaces.ModelUserRoleRepository;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.User;
 import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.entities.UserRole;
-import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.ValidateString;
+import ua.edu.sumdu.j2ee.chepiha.eshop.eshop.models.services.UserService;
 
 import java.util.List;
 
@@ -22,12 +22,14 @@ public class UserController {
 
     private final ModelUserRepository<User> userRepository;
     private final ModelUserRoleRepository<UserRole> userRoleRepository;
+    private final UserService userService;
 
     @Autowired
     public UserController(ModelUserRepository<User> userRepository,
-                          ModelUserRoleRepository<UserRole> userRoleRepository) {
+                          ModelUserRoleRepository<UserRole> userRoleRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/users")
@@ -41,8 +43,7 @@ public class UserController {
     @GetMapping("/users/add")
     public String usersAddGet(Model model){
         log.info("Page create new user");
-        List<UserRole> roles = userRoleRepository.getAll();
-        model.addAttribute("roles", roles);
+        model.addAttribute("roles", userRoleRepository.getAll());
         return "pages/user/add";
     }
 
@@ -50,12 +51,10 @@ public class UserController {
     public String usersAddPost(@RequestParam String userLogin, @RequestParam String userPass,
                                @RequestParam long userRole, Model model){
         log.info("Page saving new user");
-        User user = new User();
-        user.setLogin(userLogin);
-        user.setPassword(userPass);
-        user.setAuthority( userRoleRepository.getOneOnlyAuthority(userRole) );
-        if(user.validate()){
-            userRepository.create(user);
+        if(!userService.createUser(userLogin, userPass, userRole)){
+            model.addAttribute("resultCreate", false);
+            model.addAttribute("roles", userRoleRepository.getAll());
+            return "pages/user/add";
         }
         return "redirect:/users";
     }
@@ -73,19 +72,8 @@ public class UserController {
     @PostMapping("/users/edit")
     public String usersEditPost(@RequestParam long userId, @RequestParam String userPass,
                                 @RequestParam long userRole, Model model){
-
         log.info("Page updating user");
-        User user = userRepository.getOne(userId);
-
-        user.setAuthority( userRoleRepository.getOneOnlyAuthority(userRole) );
-
-        if(ValidateString.validateString(userPass)){
-            user.setPassword(userPass);
-            userRepository.update(user);
-        } else {
-            userRepository.updateRole(user);
-        }
-
+        userService.updateUser(userId, userPass, userRole);
         return "redirect:/users";
     }
 

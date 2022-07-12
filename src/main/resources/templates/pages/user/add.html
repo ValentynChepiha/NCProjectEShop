@@ -15,6 +15,12 @@
 
         <form method="post" action="/users/add" name="formEdituser"  class="offset-md-2 col-md-8 needs-validation"  novalidate>
 
+            <th:block th:if="${resultCreate} == false">
+                <div class="alert alert-danger" role="alert">
+                    Error. User didn't create. User already present.
+                </div>
+            </th:block>
+
             <div class="form-floating mb-3">
                 <input type="text" class="form-control" name="userLogin" id="userLogin" placeholder="Enter login" required>
                 <label for="userLogin">Enter login</label>
