@@ -40,11 +40,11 @@ public class AuthController {
     public String signUpPost(Model model, @Valid User user,  BindingResult bindingResult){
         log.info("AuthController signUpPost start ...");
         if(bindingResult.hasErrors()) {
-            return "/pages/auth/sign-up";
+            return "pages/auth/sign-up";
         }
         if(!userService.createUser(user)) {
             model.addAttribute("resultCreate", false);
-            return "/pages/auth/sign-up";
+            return "pages/auth/sign-up";
         }
         return "redirect:/signin";
     }
